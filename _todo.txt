@@ -1,0 +1,11 @@
+
+# Major
+- Collision Calculation
+- Basic Graphics
+- Shop
+- Movement
+
+
+# Minor
+- Resource Drop Balancing
+- Obstacle balancing
