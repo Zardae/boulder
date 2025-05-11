@@ -17,6 +17,9 @@ namespace Boulder
 		float CalcDef();
 		float CalcSlowdown();
 
+		int GetX();
+		int GetY();
+
 	private:
 		Material material;
 		float size;
@@ -24,5 +27,8 @@ namespace Boulder
 		float density;
 		float brittleness;
 		float hardness;
+
+		int pos_x;
+		int pos_y;
 	};
 }

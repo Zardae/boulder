@@ -226,11 +226,10 @@ void Surface::Circle(int x, int y, int radius, Pixel color)
 }
 
 // Draw Player
-void Surface::DrawBoulder(Player player, int boulderX, int floorY)
+void Surface::DrawBoulder(int boulderX, int floorY, int radius, Pixel color)
 {
-	int radius = 5 + 2 * player.GetSize();
 	int boulderY = floorY - (2 * radius + 1);
-	Circle(boulderX, boulderY, radius, player.GetColorCode());
+	Circle(boulderX, boulderY, radius, color);
 }
 
 

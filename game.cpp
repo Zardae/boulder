@@ -3,6 +3,7 @@
 #include "material.h"
 #include <cstdio> //printf
 #include <iostream>
+#include <windows.h>
 
 namespace Boulder
 {
@@ -29,10 +30,41 @@ namespace Boulder
 	// -----------------------------------------------------------
 	void Game::Tick(float deltaTime)
 	{
+		screen->Clear(0);
+		
+		// Draw "Floor"
+		screen->Bar(0, FloorY, 800, 512, 0x734222);
+
 		switch (state) {
 		case State::START:
-
 			DrawStart();
+
+			if (GetAsyncKeyState('D'))
+			{
+				player.Accelerate(deltaTime);
+				state = State::ROLLING;
+			}
+
+			break;
+		case State::ROLLING:
+
+			if (GetAsyncKeyState('D'))
+			{
+				player.Accelerate(deltaTime);
+				std::cout << "deltaTime: " << deltaTime << "\n";
+				std::cout << player.GetSpeed() << "\n";
+			}
+			else if (GetAsyncKeyState('A'))
+			{
+				player.Decelerate(deltaTime);
+				if (player.GetSpeed() == 0)
+				{
+					state = State::START;
+				}
+			}
+
+
+			DrawRolling();
 			break;
 		}
 
@@ -64,8 +96,30 @@ namespace Boulder
 
 	void Game::DrawStart()
 	{
-		screen->Clear(0);
+		// Explanation Text
 		screen->Print("Press D to start rolling", 340, 254, 0xffffff);
-		screen->DrawBoulder(player, BoulderX, FloorY);
+
+		// Objects
+		screen->DrawBoulder(BoulderX, FloorY + 10, 5 + 2 * player.GetSize(), player.GetColorCode());
+
+
+	}
+
+	void Game::DrawRolling()
+	{
+		// Objects
+		screen->DrawBoulder(BoulderX, FloorY + 10, 5 + 2 * player.GetSize(), player.GetColorCode());
+
+		//Draw currencies in top right corner
+		screen->Print("igneous:", 550, 10, 0xffffff);
+		screen->Print("1000000000", 680, 10, 0xffffff);
+		screen->Print("sedimentary:", 550, 20, 0xffffff);
+		screen->Print("1000000000", 680, 20, 0xffffff);
+		screen->Print("metamorphic:", 550, 30, 0xffffff);
+		screen->Print("1000000000", 680, 30, 0xffffff);
+		screen->Print("extraterrestrial:", 550, 40, 0xffffff);
+		screen->Print("1000000000", 680, 40, 0xffffff);
+		screen->Print("metal:", 550, 50, 0xffffff);
+		screen->Print("1000000000", 680, 50, 0xffffff);
 	}
 };

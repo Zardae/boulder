@@ -10,10 +10,10 @@ namespace Boulder
 		hardness = 5.0;
 		smoothness = 5.0;
 
-		size = 3;
+		size = 10;
 		mass = 15.0;
 		integrity = 45.0;
-		max_integrity = 4.05;
+		max_integrity = 4.0;
 		speed = 0.0;
 		max_speed = 50.0;
 		acceleration = 2.5;
@@ -131,4 +131,27 @@ namespace Boulder
 		return size;
 	}
 
+	// Rolling related methods
+	void Player::Accelerate(float deltaTime)
+	{
+		speed += acceleration / deltaTime;
+		if (speed > max_speed)
+		{
+			speed = max_speed;
+		}
+	}
+
+	void Player::Decelerate(float deltaTime)
+	{
+		speed -= deceleration / deltaTime;
+		if (speed < 0)
+		{
+			speed = 0;
+		}
+	}
+
+	float Player::GetSpeed()
+	{
+		return speed;
+	}
 }

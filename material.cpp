@@ -23,7 +23,7 @@ namespace Boulder
 		hardness_var = 1;
 		smoothness_mean = 5;
 		smoothness_var = 1;
-		color_code = 0;
+		color_code = 0x909090;
 	}
 
 	Material::Material(char* pname, Material::RockType ptype, float pden_mean, float pden_var, float pbrit_mean, float pbrit_var, float phard_mean, float phard_var, float psmooth_mean, float psmooth_var, Pixel pcolor)

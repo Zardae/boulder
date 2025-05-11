@@ -9,6 +9,9 @@ namespace Boulder
 		density = 5;
 		brittleness = 5;
 		hardness = 5;
+
+		pos_x = 800 - size;
+		pos_y = 490 - (5 + size);
 	}
 
 	Obstacle::Obstacle(Material pmaterial, float psize)
@@ -18,5 +21,18 @@ namespace Boulder
 		density = material.GenDensity();
 		brittleness = material.GenBrittleness();
 		hardness = material.GenHardness();
+
+		pos_x = 800 - size;
+		pos_y = 490 - (5 + size);
+	}
+
+	int Obstacle::GetX()
+	{
+		return pos_x;
+	}
+
+	int Obstacle::GetY()
+	{
+		return pos_y;
 	}
 }

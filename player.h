@@ -39,6 +39,7 @@ namespace Boulder
 		// Rolling related methods
 		void Accelerate(float deltaTime);
 		void Decelerate(float deltaTime);
+		float GetSpeed();
 
 		// Collision related methods
 		void OnCollision(Obstacle obstacle);

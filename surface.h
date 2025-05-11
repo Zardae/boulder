@@ -2,7 +2,6 @@
 // IGAD/BUAS(NHTV)/UU - Jacco Bikker - 2006-2020
 
 #pragma once
-#include "player.h"
 
 namespace Boulder {
 
@@ -67,7 +66,7 @@ public:
 	void Bar( int x1, int y1, int x2, int y2, Pixel color );
 	// ADDED BY ME
 	void Circle(int x, int y, int radius, Pixel color);
-	void DrawBoulder(Player player, int boulderX, int floorY);
+	void DrawBoulder(int boulderX, int floorY, int radius, Pixel color);
 	//
 	void Resize( Surface* a_Orig );
 private:
