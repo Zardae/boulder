@@ -29,6 +29,9 @@ public:
 	void KeyDown( int key ) { /* implement if you want to handle keys */ }
 	int mousex, mousey;
 
+	// Collision
+	State Collision(Player player, Obstacle obstacle);
+
 	// Draw Game State
 	void DrawStart();
 	void DrawUpgrading();
@@ -36,7 +39,6 @@ public:
 	void DrawRolling();
 	void DrawStopping();
 	void DrawBroken();
-
 
 private:
 	Surface* screen;

@@ -1,4 +1,5 @@
 #include "player.h"
+#include <corecrt_math.h>
 
 namespace Boulder
 {
@@ -15,7 +16,7 @@ namespace Boulder
 		integrity = 45.0;
 		max_integrity = 4.0;
 		speed = 0.0;
-		max_speed = 50.0;
+		max_speed = 15.0;
 		acceleration = 2.5;
 		deceleration = 2.5;
 
@@ -134,7 +135,7 @@ namespace Boulder
 	// Rolling related methods
 	void Player::Accelerate(float deltaTime)
 	{
-		speed += acceleration / deltaTime;
+		speed += acceleration * deltaTime / 1000;
 		if (speed > max_speed)
 		{
 			speed = max_speed;
@@ -143,7 +144,7 @@ namespace Boulder
 
 	void Player::Decelerate(float deltaTime)
 	{
-		speed -= deceleration / deltaTime;
+		speed -= deceleration * deltaTime / 1000;
 		if (speed < 0)
 		{
 			speed = 0;
@@ -153,5 +154,28 @@ namespace Boulder
 	float Player::GetSpeed()
 	{
 		return speed;
+	}
+
+	
+	// Collision related methods
+	float Player::RemainingIntegrity(float damageTaken)
+	{
+		integrity -= damageTaken;
+		return integrity;
+	}
+
+	float Player::CalcAtk()
+	{
+		float base = density * size;
+		float hardMult = pow(1.05, hardness);
+		float speedMult = pow(1.01, speed);
+		return base * hardMult * speedMult;
+	}
+
+	float Player::CalcDef()
+	{
+		float base = density * size;
+		float britMult = pow(0.9, brittleness);
+		return base * britMult;
 	}
 }

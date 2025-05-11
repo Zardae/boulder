@@ -42,8 +42,7 @@ namespace Boulder
 		float GetSpeed();
 
 		// Collision related methods
-		void OnCollision(Obstacle obstacle);
-		float RemainingIntegrity();
+		float RemainingIntegrity(float damageTaken);
 		float CalcAtk();
 		float CalcDef();
 
@@ -56,7 +55,7 @@ namespace Boulder
 		float hardness;
 		float smoothness;
 
-		int size;			// radius = 5 + 2 * size	
+		int size;
 		float mass;
 		float integrity;
 		float max_integrity;

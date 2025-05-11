@@ -13,10 +13,12 @@ namespace Boulder
 		Obstacle();
 		Obstacle(Material pmaterial, float psize);
 
+		// Collision related 
 		float CalcAtk();
 		float CalcDef();
 		float CalcSlowdown();
 
+		// Position Getter Methods
 		int GetX();
 		int GetY();
 

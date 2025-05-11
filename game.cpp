@@ -51,8 +51,6 @@ namespace Boulder
 			if (GetAsyncKeyState('D'))
 			{
 				player.Accelerate(deltaTime);
-				std::cout << "deltaTime: " << deltaTime << "\n";
-				std::cout << player.GetSpeed() << "\n";
 			}
 			else if (GetAsyncKeyState('A'))
 			{
@@ -90,6 +88,10 @@ namespace Boulder
 		*/
 	}
 
+	// Collision Method
+	Game::State Game::Collision(Player player, Obstacle obstacle) {
+
+	}
 
 
 	// Draw Game State Methods

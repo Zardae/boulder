@@ -1,4 +1,5 @@
 #include "obstacle.h"
+#include <corecrt_math.h>
 
 namespace Boulder
 {
@@ -26,6 +27,28 @@ namespace Boulder
 		pos_y = 490 - (5 + size);
 	}
 
+	// Collision related
+	float Obstacle::CalcAtk()
+	{
+		float base = density * size;
+		float hardMult = pow(1.05, hardness);
+		return base * hardMult;
+	}
+
+	float Obstacle::CalcDef()
+	{
+		float base = density * size;
+		float britMult = pow(0.9, brittleness);
+		return base * britMult;
+	}
+
+	float Obstacle::CalcSlowdown()
+	{
+		const float SlowdownFactor = 0.25;
+		return density * size * SlowdownFactor;
+	}
+
+	// Position Getter Methods
 	int Obstacle::GetX()
 	{
 		return pos_x;
