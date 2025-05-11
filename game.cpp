@@ -90,7 +90,7 @@ namespace Boulder
 
 	// Collision Method
 	Game::State Game::Collision(Player player, Obstacle obstacle) {
-
+		return State::ROLLING;
 	}
 
 
