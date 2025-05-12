@@ -59,7 +59,7 @@ namespace Boulder
 		case Material::RockType::METAMORPHIC:
 			metamorphic += value;
 			break;
-		case Material::RockType::EXTRATERRESTIAL:
+		case Material::RockType::EXTRATERRESTRIAL:
 			extraterrestrial += value;
 			break;
 		case Material::RockType::METAL:
@@ -84,7 +84,7 @@ namespace Boulder
 		case Material::RockType::METAMORPHIC:
 			metamorphic -= value;
 			break;
-		case Material::RockType::EXTRATERRESTIAL:
+		case Material::RockType::EXTRATERRESTRIAL:
 			extraterrestrial -= value;
 			break;
 		case Material::RockType::METAL:

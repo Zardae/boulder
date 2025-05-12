@@ -144,7 +144,7 @@ namespace Boulder
 			typeAmount = sizeof(metalMaterials);
 		}
 
-		std::uniform_int_distribution<> distr(0, typeAmount - 1);
+		std::uniform_int_distribution<> distr(0, typeAmount);
 		int rnd = distr(gen);
 
 		switch (rockType)

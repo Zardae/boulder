@@ -12,15 +12,17 @@ namespace Boulder
 		bool Collided(int centerX, int centerY, int radius);
 		
 		// Obstacle Management
+		Obstacle* GetObstacles();
+		int GetObstacleAmount();
 		void AddObstacle(MaterialManager materialManager);
 		void RemoveObstacle();
 
 	private:
-		int obstacle_amount = 0;
+		int obstacleAmount = 0;
 		Obstacle obstacles[10];
 
 		// Obstacle generation related
 		int distanceSinceLast = 0;
-		int maxSize = 10;
+		int maxSize = 10; 
 	};
 }

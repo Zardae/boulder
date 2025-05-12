@@ -25,6 +25,12 @@ namespace Boulder
 		int GetX();
 		int GetY();
 
+		// Size Getter Method
+		int GetSize();
+
+		// Color Getter
+		Pixel GetColor();
+
 	private:
 		Material material;
 		float size;

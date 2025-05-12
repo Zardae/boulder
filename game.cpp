@@ -39,6 +39,7 @@ namespace Boulder
 			if (GetAsyncKeyState('D'))
 			{
 				player.Accelerate(deltaTime);
+				obstacleManager.Init(materialManager);
 				state = State::ROLLING;
 			}
 
@@ -150,7 +151,7 @@ namespace Boulder
 	void Game::DrawBroken()
 	{
 		// Objects
-
+		DrawObstacles();
 
 		// Balance
 		DrawCurrencies();
@@ -159,7 +160,14 @@ namespace Boulder
 	// Draws obstacles
 	void Game::DrawObstacles()
 	{
+		Obstacle* obstacles = obstacleManager.GetObstacles();
+		int obstacleAmount = obstacleManager.GetObstacleAmount();
 
+		for (int i = 0; i < obstacleAmount; i++)
+		{
+			Obstacle o = obstacles[i];
+			screen->Bar(o.GetX(), o.GetY(), o.GetX() + o.GetSize(), FloorY + 10, o.GetColor());
+		}
 	}
 
 

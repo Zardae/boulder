@@ -64,4 +64,15 @@ namespace Boulder
 	{
 		return pos_y;
 	}
+
+	// Size Getter Method
+	int Obstacle::GetSize()
+	{
+		return size;
+	}
+
+	Pixel Obstacle::GetColor()
+	{
+		return material.GetColorCode();
+	}
 }

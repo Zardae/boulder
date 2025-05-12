@@ -12,7 +12,7 @@ namespace Boulder
 		{
 			obstacles[i] = dummy;
 		}
-		obstacle_amount = 0;
+		obstacleAmount = 0;
 
 		// Add 2 obstacles
 		AddObstacle(materialManager);
@@ -25,7 +25,7 @@ namespace Boulder
 
 	void ObstacleManager::OnTick(int distance, MaterialManager materialManager)
 	{
-		for (int i = 0; i < obstacle_amount; i++)
+		for (int i = 0; i < obstacleAmount; i++)
 		{
 			obstacles[i].Move(distance);
 		}
@@ -64,6 +64,17 @@ namespace Boulder
 	}
 
 	// Obstacle Management
+	Obstacle* ObstacleManager::GetObstacles()
+	{
+		return obstacles;
+	}
+
+	int ObstacleManager::GetObstacleAmount()
+	{
+		return obstacleAmount;
+	}
+
+
 	void ObstacleManager::AddObstacle(MaterialManager materialManager)
 	{
 		// Size generation
@@ -74,17 +85,17 @@ namespace Boulder
 		Material material = materialManager.GetMaterial(materialManager.GetObstacleType());
 
 		Obstacle obstacle(material, rnd);
-		obstacles[obstacle_amount] = obstacle;
-		obstacle_amount++;
+		obstacles[obstacleAmount] = obstacle;
+		obstacleAmount++;
 	}
 
 	void ObstacleManager::RemoveObstacle()
 	{
 		// Overwriting every obstacle with the next one.
-		for (int i = 0; i < obstacle_amount - 1; i++)
+		for (int i = 0; i < obstacleAmount - 1; i++)
 		{
 			obstacles[i] = obstacles[i + 1];
 		}
-		obstacle_amount--;
+		obstacleAmount--;
 	}
 }
