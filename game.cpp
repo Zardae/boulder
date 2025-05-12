@@ -12,9 +12,6 @@ namespace Boulder
 	// -----------------------------------------------------------
 	void Game::Init()
 	{
-		MaterialManager materialManager;
-
-		player;
 		this->state = START;
 	}
 	
@@ -57,39 +54,60 @@ namespace Boulder
 				player.Decelerate(deltaTime);
 				if (player.GetSpeed() == 0)
 				{
-					state = State::START;
+					state = State::STOPPING;
 				}
 			}
+			
+			// Calculate distance travelled
+			smallDistanceTravelled += player.GetSpeed() * deltaTime / 1000;
+			distance = (int)smallDistanceTravelled;
+			obstacleManager.OnTick(distance, materialManager);
+			smallDistanceTravelled -= distance;
 
+			// Check for collision
+			// These calculations may seem a bit weird. (5 + 2 * player.GetSize()) is the radius of the boulder.
+			centerX = BoulderX + 5 + 2 * player.GetSize();	
+			// The Boulder is 10 pixels further down than the actual floor, to give the impression of a slight 2.5D Perspective.
+			// So we need to subtract the radius again to get the centers y value.
+			centerY = FloorY + 10 - (5 + 2 * player.GetSize());
+
+			if (obstacleManager.Collided(centerX, centerY, (5 + 2 * player.GetSize())))
+			{
+				Collision();
+			}
 
 			DrawRolling();
 			break;
+		case State::STOPPING:
+
+
+			DrawStopping();
+
+			frameCounter++;
+			if (frameCounter > 150)
+			{
+				state = State::UPGRADING;
+				frameCounter = 0;
+			}
+			break;
+		case State::BROKEN:
+
+			DrawBroken();
+
+			frameCounter++;
+			if (frameCounter > 150)
+			{
+				state = State::SELECTING;
+				frameCounter = 0;
+			}
+
+			break;
 		}
 
-
-
-
-
-		// clear the graphics window
-		//screen->Clear(0);
-		// print something in the graphics window
-		/*
-		screen->Circle(10, 10, 10, 0xffffff);
-		screen->Print("igneous:", 550, 10, 0xffffff);
-		screen->Print("1000000000", 680, 10, 0xffffff);
-		screen->Print("sedimentary:", 550, 20, 0xffffff);
-		screen->Print("1000000000", 680, 20, 0xffffff);
-		screen->Print("metamorphic:", 550, 30, 0xffffff);
-		screen->Print("1000000000", 680, 30, 0xffffff);
-		screen->Print("extraterrestrial:", 550, 40, 0xffffff);
-		screen->Print("1000000000", 680, 40, 0xffffff);
-		screen->Print("metal:", 550, 50, 0xffffff);
-		screen->Print("1000000000", 680, 50, 0xffffff);
-		*/
 	}
 
 	// Collision Method
-	Game::State Game::Collision(Player player, Obstacle obstacle) {
+	Game::State Game::Collision() {
 		return State::ROLLING;
 	}
 
@@ -99,7 +117,8 @@ namespace Boulder
 	void Game::DrawStart()
 	{
 		// Explanation Text
-		screen->Print("Press D to start rolling", 340, 254, 0xffffff);
+		std::string startupText = "Press D to start rolling";
+		screen->Print(startupText.data(), 340, 254, 0xffffff);
 
 		// Objects
 		screen->DrawBoulder(BoulderX, FloorY + 10, 5 + 2 * player.GetSize(), player.GetColorCode());
@@ -112,16 +131,72 @@ namespace Boulder
 		// Objects
 		screen->DrawBoulder(BoulderX, FloorY + 10, 5 + 2 * player.GetSize(), player.GetColorCode());
 
-		//Draw currencies in top right corner
-		screen->Print("igneous:", 550, 10, 0xffffff);
-		screen->Print("1000000000", 680, 10, 0xffffff);
-		screen->Print("sedimentary:", 550, 20, 0xffffff);
-		screen->Print("1000000000", 680, 20, 0xffffff);
-		screen->Print("metamorphic:", 550, 30, 0xffffff);
-		screen->Print("1000000000", 680, 30, 0xffffff);
-		screen->Print("extraterrestrial:", 550, 40, 0xffffff);
-		screen->Print("1000000000", 680, 40, 0xffffff);
-		screen->Print("metal:", 550, 50, 0xffffff);
-		screen->Print("1000000000", 680, 50, 0xffffff);
+
+		// Balance
+		DrawCurrencies();
 	}
+
+
+	void Game::DrawStopping()
+	{
+		// Objects
+		screen->DrawBoulder(BoulderX, FloorY + 10, 5 + 2 * player.GetSize(), player.GetColorCode());
+
+
+		// Balance
+		DrawCurrencies();
+	}
+
+	void Game::DrawBroken()
+	{
+		// Objects
+
+
+		// Balance
+		DrawCurrencies();
+	}
+
+	// Draws obstacles
+	void Game::DrawObstacles()
+	{
+
+	}
+
+
+	// Draws currency box in the top right corner
+	void Game::DrawCurrencies()
+	{
+		// Draw box around currencies
+		screen->Box(540, 0, 799, 60, 0xffffff);
+
+		//Draw currencies in top right corner
+		std::string igneousStr = "Igneous";
+		std::string igneousBalStr = std::to_string(player.GetIgneous());
+
+		std::string sedimentaryStr = "Sedimentary";
+		std::string sedimentaryBalStr = std::to_string(player.GetSedimentary());
+
+		std::string metamorphicStr = "Metamorphic";
+		std::string metamorphicBalStr = std::to_string(player.GetMetamorphic());
+
+		std::string extraterrestrialStr = "Extraterrestrial";
+		std::string extraterrestrialBalStr = std::to_string(player.GetExtraterrestrial());
+
+		std::string metalStr = "Metal";
+		std::string metalBalStr = std::to_string(player.GetMetal());
+
+
+
+		screen->Print(igneousStr.data(), 550, 10, 0xaaaaaa);
+		screen->Print(igneousBalStr.data(), 680, 10, 0xaaaaaa);
+		screen->Print(sedimentaryStr.data(), 550, 20, 0xb29082);
+		screen->Print(sedimentaryBalStr.data(), 680, 20, 0xb29082);
+		screen->Print(metamorphicStr.data(), 550, 30, 0x808080);
+		screen->Print(metamorphicBalStr.data(), 680, 30, 0x808080);
+		screen->Print(extraterrestrialStr.data(), 550, 40, 0x505060);
+		screen->Print(extraterrestrialBalStr.data(), 680, 40, 0x505060);
+		screen->Print(metalStr.data(), 550, 50, 0x606070);
+		screen->Print(metalBalStr.data(), 680, 50, 0x606070);
+	}
+
 };

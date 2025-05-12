@@ -26,7 +26,7 @@ namespace Boulder
 		color_code = 0x909090;
 	}
 
-	Material::Material(char* pname, Material::RockType ptype, float pden_mean, float pden_var, float pbrit_mean, float pbrit_var, float phard_mean, float phard_var, float psmooth_mean, float psmooth_var, Pixel pcolor)
+	Material::Material(std::string pname, Material::RockType ptype, float pden_mean, float pden_var, float pbrit_mean, float pbrit_var, float phard_mean, float phard_var, float psmooth_mean, float psmooth_var, Pixel pcolor)
 	{
 		name = pname;
 		rock_type = ptype;
@@ -45,7 +45,7 @@ namespace Boulder
 	// Getter Functions for members needing one
 	//
 
-	char* Material::GetName()
+	std::string Material::GetName()
 	{
 		return name;
 	}

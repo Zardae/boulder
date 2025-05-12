@@ -30,7 +30,7 @@ public:
 	int mousex, mousey;
 
 	// Collision
-	State Collision(Player player, Obstacle obstacle);
+	State Collision();
 
 	// Draw Game State
 	void DrawStart();
@@ -40,14 +40,38 @@ public:
 	void DrawStopping();
 	void DrawBroken();
 
+	// Obstacle helper
+	void DrawObstacles();
+
+	// Currency helper
+	void DrawCurrencies();
+
 private:
 	Surface* screen;
 	State state;
-	MaterialManager *materialManager;
+	MaterialManager materialManager;
+	ObstacleManager obstacleManager;
 	Player player;
 
-	const int BoulderX = 50;
+	// Member to keep track distance travelled
+	// NOT the total distance, each fully travelled unit will be subtracted!
+	float smallDistanceTravelled;
 
+	// The following 3 members exist due to an error message popping up when
+	// initializing and using these variables inside a switch statement
+	// Pixels travelled this frame
+	int distance;
+
+	// Member to keep track of the Boulder Center (For possible movement variation)
+	int centerX;
+	int centerY;
+
+
+	// Member to count frames passed in current state
+	int frameCounter;
+
+	// Constants for Boulder Placement
+	const int BoulderX = 50;
 	const int FloorY = 480;
 };
 }; // namespace Boulder

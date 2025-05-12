@@ -1,5 +1,6 @@
 #pragma once
 #include "surface.h"
+#include <string>
 
 //
 // Defines the material class used both for the player and the obstacles.
@@ -15,14 +16,14 @@ namespace Boulder
 			IGNEOUS,
 			SEDIMENTARY,
 			METAMORPHIC,
-			EXTRATERRESTIAL,
+			EXTRATERRESTRIAL,
 			METAL
 		};
 
 		// Material functions
 		Material();
-		Material(char* pname, Material::RockType type, float pden_mean, float pden_var, float pbrit_mean, float pbrit_var, float phard_mean, float phard_var, float psmooth_mean, float psmooth_var, Pixel pcolor);
-		char* GetName();
+		Material(std::string pname, Material::RockType type, float pden_mean, float pden_var, float pbrit_mean, float pbrit_var, float phard_mean, float phard_var, float psmooth_mean, float psmooth_var, Pixel pcolor);
+		std::string GetName();
 		Material::RockType GetRockType();
 		unsigned int GetColorCode();
 		float GenDensity();
@@ -31,7 +32,7 @@ namespace Boulder
 		float GenSmoothness();
 
 	private:
-		char *name;
+		std::string name;
 		RockType rock_type;
 		float density_mean;
 		float density_var;

@@ -48,6 +48,12 @@ namespace Boulder
 		return density * size * SlowdownFactor;
 	}
 
+	// Move Method
+	void Obstacle::Move(int distance)
+	{
+		pos_x -= distance;
+	}
+
 	// Position Getter Methods
 	int Obstacle::GetX()
 	{

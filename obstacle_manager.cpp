@@ -1,15 +1,42 @@
 #include "obstacle_manager.h"
 #include <corecrt_math.h>
+#include <random>
 
 namespace Boulder
 {
-	void ObstacleManager::Init()
+	void ObstacleManager::Init(MaterialManager materialManager)
 	{
+		// Reset obstacles array to dummy obstacles
+		Obstacle dummy;
+		for (int i = 0; i < 10; i++)
+		{
+			obstacles[i] = dummy;
+		}
+		obstacle_amount = 0;
+
+		// Add 2 obstacles
+		AddObstacle(materialManager);
+		AddObstacle(materialManager);
+
+		// Place first obstacle 10 pixels in front
+		obstacles[0].Move(100);
 
 	}
 
-	void ObstacleManager::OnTick(float deltaTime, float playerSpeed)
+	void ObstacleManager::OnTick(int distance, MaterialManager materialManager)
 	{
+		for (int i = 0; i < obstacle_amount; i++)
+		{
+			obstacles[i].Move(distance);
+		}
+
+		distanceSinceLast += distance;
+
+		if (distanceSinceLast >= 80)
+		{
+			AddObstacle(materialManager);
+			distanceSinceLast = 0;
+		}
 
 	}
 
@@ -34,5 +61,30 @@ namespace Boulder
 		}
 		
 		return false;
+	}
+
+	// Obstacle Management
+	void ObstacleManager::AddObstacle(MaterialManager materialManager)
+	{
+		// Size generation
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_int_distribution<> distr(5, maxSize);
+		int rnd = distr(gen);
+		Material material = materialManager.GetMaterial(materialManager.GetObstacleType());
+
+		Obstacle obstacle(material, rnd);
+		obstacles[obstacle_amount] = obstacle;
+		obstacle_amount++;
+	}
+
+	void ObstacleManager::RemoveObstacle()
+	{
+		// Overwriting every obstacle with the next one.
+		for (int i = 0; i < obstacle_amount - 1; i++)
+		{
+			obstacles[i] = obstacles[i + 1];
+		}
+		obstacle_amount--;
 	}
 }

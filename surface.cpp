@@ -304,6 +304,7 @@ void Surface::SetChar( int c, char* c1, char* c2, char* c3, char* c4, char* c5 )
 
 void Surface::InitCharset()
 {
+	
 	SetChar( 0, ":ooo:", "o:::o", "ooooo", "o:::o", "o:::o" );
 	SetChar( 1, "oooo:", "o:::o", "oooo:", "o:::o", "oooo:" );
 	SetChar( 2, ":oooo", "o::::", "o::::", "o::::", ":oooo" );
@@ -358,6 +359,7 @@ void Surface::InitCharset()
 	int i;
 	for ( i = 0; i < 256; i++ ) s_Transl[i] = 45;
 	for ( i = 0; i < 50; i++ ) s_Transl[(unsigned char)c[i]] = i;
+	
 }
 
 void Surface::ScaleColor( unsigned int a_Scale )

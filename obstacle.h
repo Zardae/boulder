@@ -18,6 +18,9 @@ namespace Boulder
 		float CalcDef();
 		float CalcSlowdown();
 
+		// Move Method
+		void Move(int distance);
+
 		// Position Getter Methods
 		int GetX();
 		int GetY();

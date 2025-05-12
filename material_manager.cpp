@@ -18,7 +18,7 @@ namespace Boulder
 		metamorphicMaterials[0] = gneiss;
 		metamorphicWeight = 20;
 
-		Material meteorIron("Meteoritic Iron", Material::RockType::EXTRATERRESTIAL, 12, 1, 2, 1, 10, 1, 6, 2, 0x505060);
+		Material meteorIron("Meteoritic Iron", Material::RockType::EXTRATERRESTRIAL, 12, 1, 2, 1, 10, 1, 6, 2, 0x505060);
 		extraterrestrialMaterials[0] = meteorIron;
 		extraterrestrialWeight = 0;
 
@@ -40,7 +40,7 @@ namespace Boulder
 		case Material::RockType::METAMORPHIC:
 			metamorphicWeight += value;
 			break;
-		case Material::RockType::EXTRATERRESTIAL:
+		case Material::RockType::EXTRATERRESTRIAL:
 			extraterrestrialWeight += value;
 			break;
 		case Material::RockType::METAL:
@@ -62,7 +62,7 @@ namespace Boulder
 		case Material::RockType::METAMORPHIC:
 			metamorphicWeight -= value;
 			break;
-		case Material::RockType::EXTRATERRESTIAL:
+		case Material::RockType::EXTRATERRESTRIAL:
 			extraterrestrialWeight -= value;
 			break;
 		case Material::RockType::METAL:
@@ -71,40 +71,94 @@ namespace Boulder
 		}
 	}
 
-	Material::RockType* MaterialManager::GetTypeSample()
+	Material::RockType MaterialManager::GetTypeSample()
 	{
-		int sumOfWeight = igneousWeight + sedimentaryWeight + metamorphicWeight + extraterrestrialWeight + metalWeight;
+		// This method of weighted sampling was found on StackOverflow
+		double sumOfWeight = igneousWeight + sedimentaryWeight + metamorphicWeight + extraterrestrialWeight + metalWeight;
 
-		Material::RockType ret[3];
 		std::random_device rd;
 		std::mt19937 gen(rd());
 		std::uniform_int_distribution<> distr(0, sumOfWeight);
-		int rnd;
-		for (int i = 0; i < 3; i++)
+		int rnd = distr(gen);
+		if (rnd < igneousWeight)
 		{
-			rnd = distr(gen);
-			if (rnd < igneousWeight)
-			{
-				ret[i] = Material::RockType::IGNEOUS;
-			}
-			else if (rnd - igneousWeight < sedimentaryWeight) 
-			{
-				ret[i] = Material::RockType::SEDIMENTARY;
-			}
-			else if (rnd - igneousWeight - sedimentaryWeight < metamorphicWeight)
-			{
-				ret[i] = Material::RockType::METAMORPHIC;
-			}
-			else if (rnd - igneousWeight - sedimentaryWeight - metamorphicWeight < extraterrestrialWeight)
-			{
-				ret[i] = Material::RockType::EXTRATERRESTIAL;
-			}
-			else
-			{
-				ret[i] = Material::RockType::METAL;
-			}
+			return Material::RockType::IGNEOUS;
+		}
+		else if (rnd - igneousWeight < sedimentaryWeight) 
+		{
+			return Material::RockType::SEDIMENTARY;
+		}
+		else if (rnd - igneousWeight - sedimentaryWeight < metamorphicWeight)
+		{
+			return Material::RockType::METAMORPHIC;
+		}
+		else if (rnd - igneousWeight - sedimentaryWeight - metamorphicWeight < extraterrestrialWeight)
+		{
+			return Material::RockType::EXTRATERRESTRIAL;
+		}
+		else
+		{
+			return Material::RockType::METAL;
+		}
+	}
+
+	Material::RockType MaterialManager::GetObstacleType()
+	{
+		// This method of sampling was suggested by Jeremiah.
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::discrete_distribution<> distr({
+			10,		// Igneous
+			10,		// Sedimentary
+			10,		// Metamorphic
+			1,		// Extraterrestrial
+			2		// Metal
+			});
+
+		Material::RockType ret = static_cast<Material::RockType>(distr(gen));	// According to a stack overflow answer
+																				// the static cast is dangerous, but I
+																				// was unable to find something better as of yet
+		return ret;
+	}
+
+	Material MaterialManager::GetMaterial(Material::RockType rockType)
+	{
+		// Method for the case that more Materials per type are added
+		std::random_device rd;
+		std::mt19937 gen(rd());
+
+		// This approach may seem a bit overcomplicated, but I ran into an issue earlier with variables inside switch statements
+		// so I am doing it this way for now
+		int typeAmount = 0;
+		switch (rockType)
+		{
+		case Material::RockType::IGNEOUS:
+			typeAmount = sizeof(igneousMaterials);
+		case Material::RockType::SEDIMENTARY:
+			typeAmount = sizeof(sedimentaryMaterials);
+		case Material::RockType::METAMORPHIC:
+			typeAmount = sizeof(metamorphicMaterials);
+		case Material::RockType::EXTRATERRESTRIAL:
+			typeAmount = sizeof(extraterrestrialMaterials);
+		case Material::RockType::METAL:
+			typeAmount = sizeof(metalMaterials);
 		}
 
-		return ret;
+		std::uniform_int_distribution<> distr(0, typeAmount - 1);
+		int rnd = distr(gen);
+
+		switch (rockType)
+		{
+		case Material::RockType::IGNEOUS:
+			return igneousMaterials[rnd];
+		case Material::RockType::SEDIMENTARY:
+			return sedimentaryMaterials[rnd];
+		case Material::RockType::METAMORPHIC:
+			return metamorphicMaterials[rnd];
+		case Material::RockType::EXTRATERRESTRIAL:
+			return extraterrestrialMaterials[rnd];
+		case Material::RockType::METAL:
+			return metalMaterials[rnd];
+		}
 	}
 }
