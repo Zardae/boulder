@@ -25,6 +25,7 @@ namespace Boulder
 		int GetMetamorphic();
 		int GetExtraterrestrial();
 		int GetMetal();
+		int CurrByType(Material::RockType type);
 
 
 		// Upgrade related methods

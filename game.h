@@ -52,6 +52,9 @@ public:
 	// Currency helper
 	void DrawCurrencies();
 
+	// Left Button released
+	bool LButtonReleased();
+
 private:
 	Surface* screen;
 	State state;
@@ -82,5 +85,7 @@ private:
 	const int BoulderX = 50;
 	const int FloorY = 480;
 	const int ObjectY = FloorY + 10;
+
+	bool lButtonWasPressed = false;
 };
 }; // namespace Boulder

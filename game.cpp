@@ -5,6 +5,7 @@
 #include <iostream>
 #include <windows.h>
 #include "progression_manager.h"
+#include "selection_manager.h"
 
 namespace Boulder
 {
@@ -54,6 +55,18 @@ namespace Boulder
 			break;
 		case State::SELECTING:
 
+			if (GetAsyncKeyState(VK_LBUTTON)) {
+				lButtonWasPressed = true;
+			}
+			if (LButtonReleased())
+			{
+				int sel = selectionManager.DetermineSelection(mousex, mousey);
+				if (sel > 0 && selectionManager.Select(player, sel))
+				{
+					state = State::UPGRADING;
+					break;
+				}
+			}
 
 			DrawSelecting();
 			break;
@@ -102,13 +115,12 @@ namespace Boulder
 			DrawRolling();
 			break;
 		case State::STOPPING:
-
-
 			DrawStopping();
 
 			frameCounter++;
 			if (frameCounter > 300)
 			{
+				// Enter next state
 				state = State::UPGRADING;
 				frameCounter = 0;
 			}
@@ -120,6 +132,8 @@ namespace Boulder
 			frameCounter++;
 			if (frameCounter > 300)
 			{
+				// Enter next state
+				selectionManager.InitSelection(); 
 				state = State::SELECTING;
 				frameCounter = 0;
 			}
@@ -218,7 +232,7 @@ namespace Boulder
 		screen->Print(row1.data(), 5, 65, 0xffffff);
 		screen->Print(row2.data(), 5, 75, 0xffffff);
 
-
+		selectionManager.Draw(screen);
 
 
 		DrawStats();
@@ -402,6 +416,16 @@ namespace Boulder
 		screen->Print(extraterrestrialBalStr.data(), 680, 35, 0x505060);
 		screen->Print(metalStr.data(), 550, 45, 0x606070);
 		screen->Print(metalBalStr.data(), 680, 45, 0x606070);
+	}
+
+	bool Game::LButtonReleased()
+	{
+		if (!GetAsyncKeyState(VK_LBUTTON) && lButtonWasPressed)
+		{
+			lButtonWasPressed = false;
+			return true;
+		}
+		return false;
 	}
 
 };

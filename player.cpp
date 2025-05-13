@@ -130,6 +130,23 @@ namespace Boulder
 		return metal;
 	}
 
+	int Player::CurrByType(Material::RockType type)
+	{
+		switch (type) {
+		case Material::RockType::IGNEOUS:
+			return igneous;
+		case Material::RockType::SEDIMENTARY:
+			return sedimentary;
+		case Material::RockType::METAMORPHIC:
+			return metamorphic;
+		case Material::RockType::EXTRATERRESTRIAL:
+			return extraterrestrial;
+		case Material::RockType::METAL:
+			return metal;
+		}
+		return 0;
+	}
+
 	// Upgrade realted methods
 
 
