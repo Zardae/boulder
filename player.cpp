@@ -6,22 +6,22 @@ namespace Boulder
 	Player::Player()
 	{
 		material;
-		density = 5.0;
-		brittleness = 5.0;
-		hardness = 5.0;
-		smoothness = 5.0;
+		density = 7.0;
+		brittleness = 7.0;
+		hardness = 7.0;
+		smoothness = 7.0;
 
 		size = 10;
 		mass = 15.0;
-		integrity = 45.0;
-		max_integrity = 4.0;
+		integrity = 1000.0;
+		max_integrity = 1000.0;
 		speed = 0.0;
-		max_speed = 15.0;
-		acceleration = 2.5;
-		deceleration = 2.5;
+		max_speed = 50.0;
+		acceleration = 5;
+		deceleration = 5;
 
 
-		igneous = 1000;
+		igneous = 100;
 		sedimentary = 100;
 		metamorphic = 100;
 		extraterrestrial = 0;
@@ -132,6 +132,26 @@ namespace Boulder
 		return size;
 	}
 
+	float Player::GetIntegrity()
+	{
+		return integrity;
+	}
+
+	float Player::GetMaxIntegrity()
+	{
+		return max_integrity;
+	}
+
+	float Player::GetSpeed()
+	{
+		return speed;
+	}
+
+	float Player::GetMaxSpeed()
+	{
+		return max_speed;
+	}
+
 	// Rolling related methods
 	void Player::Accelerate(float deltaTime)
 	{
@@ -151,16 +171,26 @@ namespace Boulder
 		}
 	}
 
-	float Player::GetSpeed()
+	void Player::DecreaseSpeed(float value)
 	{
-		return speed;
+		speed -= value;
+		if (speed < 0)
+		{
+			speed = 0;
+		}
 	}
+
+	
 
 	
 	// Collision related methods
 	float Player::RemainingIntegrity(float damageTaken)
 	{
 		integrity -= damageTaken;
+		if (integrity < 0)
+		{
+			integrity = 0;
+		}
 		return integrity;
 	}
 

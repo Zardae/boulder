@@ -40,6 +40,9 @@ public:
 	void DrawStopping();
 	void DrawBroken();
 
+	// Boulder helper
+	void DrawBoulder();
+
 	// Obstacle helper
 	void DrawObstacles();
 
@@ -49,8 +52,8 @@ public:
 private:
 	Surface* screen;
 	State state;
-	MaterialManager materialManager;
-	ObstacleManager obstacleManager;
+	//MaterialManager materialManager;
+	//ObstacleManager obstacleManager;
 	Player player;
 
 	// Member to keep track distance travelled
@@ -73,5 +76,6 @@ private:
 	// Constants for Boulder Placement
 	const int BoulderX = 50;
 	const int FloorY = 480;
+	const int ObjectY = FloorY + 10;
 };
 }; // namespace Boulder

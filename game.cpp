@@ -12,6 +12,7 @@ namespace Boulder
 	// -----------------------------------------------------------
 	void Game::Init()
 	{
+		obstacleManager.Init();
 		this->state = START;
 	}
 	
@@ -35,17 +36,26 @@ namespace Boulder
 		switch (state) {
 		case State::START:
 			DrawStart();
-
+			
 			if (GetAsyncKeyState('D'))
 			{
 				player.Accelerate(deltaTime);
-				obstacleManager.Init(materialManager);
 				state = State::ROLLING;
 			}
 
 			break;
-		case State::ROLLING:
+		case State::UPGRADING:
+			
 
+
+			DrawUpgrading();
+			break;
+		case State::SELECTING:
+
+
+			DrawSelecting();
+			break;
+		case State::ROLLING:
 			if (GetAsyncKeyState('D'))
 			{
 				player.Accelerate(deltaTime);
@@ -62,19 +72,19 @@ namespace Boulder
 			// Calculate distance travelled
 			smallDistanceTravelled += player.GetSpeed() * deltaTime / 1000;
 			distance = (int)smallDistanceTravelled;
-			obstacleManager.OnTick(distance, materialManager);
+			obstacleManager.OnTick(distance);
 			smallDistanceTravelled -= distance;
 
 			// Check for collision
 			// These calculations may seem a bit weird. (5 + 2 * player.GetSize()) is the radius of the boulder.
-			centerX = BoulderX + 5 + 2 * player.GetSize();	
+			centerX = BoulderX + 5 + 1 * player.GetSize();	
 			// The Boulder is 10 pixels further down than the actual floor, to give the impression of a slight 2.5D Perspective.
 			// So we need to subtract the radius again to get the centers y value.
-			centerY = FloorY + 10 - (5 + 2 * player.GetSize());
+			centerY = FloorY + 10 - (5 + 1 * player.GetSize());
 
-			if (obstacleManager.Collided(centerX, centerY, (5 + 2 * player.GetSize())))
+			if (obstacleManager.Collided(centerX, centerY, (1 + player.GetSize())))
 			{
-				Collision();
+				state = Collision();
 			}
 
 			DrawRolling();
@@ -107,13 +117,64 @@ namespace Boulder
 
 	}
 
+	// -----------------------------------------------------------
 	// Collision Method
+	// -----------------------------------------------------------
+
 	Game::State Game::Collision() {
+
+		// Damage Calculation
+		Obstacle o = obstacleManager.GetObstacles()[0];
+		
+		float offDiff = player.CalcAtk() - o.CalcDef();
+		float defDiff = player.CalcDef() - o.CalcAtk();
+		float damageTaken = std::abs(offDiff) + std::abs(defDiff);
+
+		if (offDiff > 0 && defDiff > 0)
+		{
+			// Reduce damage taken if both "struggles" are won
+			damageTaken /= 4;
+		}
+		else if (offDiff < 0 && defDiff < 0) {
+			// Increasing damage taken if both "struggles" are lost
+			damageTaken *= 4;
+		}
+
+		float remainingIntegrity = player.RemainingIntegrity(damageTaken);
+		
+		// Apply slowdown from Obstacle
+		float slowdown = o.CalcSlowdown();
+		player.DecreaseSpeed(slowdown);
+
+		// Handling result
+		if (remainingIntegrity == 0) {
+			// Boulder was destroyed
+			if (offDiff > 0) {
+				// Boulder dealt enough damage to destroy Obstacle
+				Obstacle removed = obstacleManager.RemoveObstacle();
+				player.AddCurrency(removed.GetMaterial().GetRockType(), removed.GetReward());
+			}
+			return State::BROKEN;
+		}
+		else if (player.GetSpeed() == 0) {
+			// Boulder was stopped
+			if (offDiff > 0) {
+				// Dealt enough damage to destroy Obstacle
+				Obstacle removed = obstacleManager.RemoveObstacle();
+				player.AddCurrency(removed.GetMaterial().GetRockType(), removed.GetReward());
+			}
+			return State::STOPPING;
+		}
+
+		Obstacle removed = obstacleManager.RemoveObstacle();
+		player.AddCurrency(removed.GetMaterial().GetRockType(), removed.GetReward());
 		return State::ROLLING;
+
 	}
 
-
+	// -----------------------------------------------------------
 	// Draw Game State Methods
+	// -----------------------------------------------------------
 
 	void Game::DrawStart()
 	{
@@ -122,16 +183,33 @@ namespace Boulder
 		screen->Print(startupText.data(), 340, 254, 0xffffff);
 
 		// Objects
-		screen->DrawBoulder(BoulderX, FloorY + 10, 5 + 2 * player.GetSize(), player.GetColorCode());
+		DrawBoulder();
+		DrawObstacles();
 
 
+	}
+
+	void Game::DrawUpgrading()
+	{
+
+
+		
+		DrawCurrencies();
+	}
+
+
+	void Game::DrawSelecting()
+	{
+
+
+		DrawCurrencies();
 	}
 
 	void Game::DrawRolling()
 	{
 		// Objects
-		screen->DrawBoulder(BoulderX, FloorY + 10, 5 + 2 * player.GetSize(), player.GetColorCode());
-
+		DrawBoulder();
+		DrawObstacles();
 
 		// Balance
 		DrawCurrencies();
@@ -141,7 +219,7 @@ namespace Boulder
 	void Game::DrawStopping()
 	{
 		// Objects
-		screen->DrawBoulder(BoulderX, FloorY + 10, 5 + 2 * player.GetSize(), player.GetColorCode());
+		DrawBoulder();
 
 
 		// Balance
@@ -156,6 +234,32 @@ namespace Boulder
 		// Balance
 		DrawCurrencies();
 	}
+
+	void Game::DrawBoulder()
+	{
+		int diameter = 1 + 2 * (1 + player.GetSize());
+
+		// Boulder
+		screen->DrawBoulder(BoulderX, ObjectY, 1 + player.GetSize(), player.GetColorCode());
+
+		// Health bar
+		// Scales with diameter
+		int healthBarY = ObjectY - (diameter + 40);
+		// Bar
+		int healthBarLength = (int)diameter * (player.GetIntegrity() / player.GetMaxIntegrity());
+		screen->Bar(BoulderX - 1, healthBarY, BoulderX - 1 + healthBarLength, healthBarY + 9, 0xaa0000);
+		// Outline
+		screen->Box(BoulderX - 1, healthBarY - 1, BoulderX + diameter, healthBarY + 10, 0xffffff);
+
+		// Speed bar
+		// Scales with diameter
+		// Bar
+		int speedBarLength = (int)diameter * (player.GetSpeed() / player.GetMaxSpeed());
+		screen->Bar(BoulderX - 1, healthBarY + 20, BoulderX - 1 + speedBarLength, healthBarY + 29, 0x0000aa);
+		// Outline
+		screen->Box(BoulderX - 1, healthBarY + 19, BoulderX + diameter, healthBarY + 30, 0xffffff);
+	}
+
 
 	// Draws obstacles
 	void Game::DrawObstacles()

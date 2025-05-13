@@ -12,10 +12,12 @@ Press D to start the game (and hold it to accelerate)
 
 When rolling:
 D: Accelerate
-A: Deccelerate
+A: Decelerate
+
+When choosing a boulder:
+Click on a boulder to purchase it
 
 When shopping:
-Mouse: Move Cursor
-LMB: Click to select buttons
-D: Accelerate / Start new attempt
+Click an upgrade to purchase it
+D: Start new Run
 

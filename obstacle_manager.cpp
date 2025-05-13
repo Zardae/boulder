@@ -1,10 +1,13 @@
 #include "obstacle_manager.h"
 #include <corecrt_math.h>
 #include <random>
+#include <iostream>
 
 namespace Boulder
 {
-	void ObstacleManager::Init(MaterialManager materialManager)
+	ObstacleManager obstacleManager;
+
+	void ObstacleManager::Init()
 	{
 		// Reset obstacles array to dummy obstacles
 		Obstacle dummy;
@@ -14,27 +17,33 @@ namespace Boulder
 		}
 		obstacleAmount = 0;
 
-		// Add 2 obstacles
-		AddObstacle(materialManager);
-		AddObstacle(materialManager);
+		// Add 4 obstacles
+		AddObstacle();
+		AddObstacle();
+		AddObstacle();
+		AddObstacle();
 
-		// Place first obstacle 10 pixels in front
-		obstacles[0].Move(100);
+		// Place obstacles further in the level
+		obstacles[0].Move(300);
+		obstacles[1].Move(200);
+		obstacles[2].Move(100);
 
 	}
 
-	void ObstacleManager::OnTick(int distance, MaterialManager materialManager)
+	void ObstacleManager::OnTick(int distance)
 	{
 		for (int i = 0; i < obstacleAmount; i++)
 		{
 			obstacles[i].Move(distance);
 		}
 
+		// Try to add a new Obstacle if distance is large enough
+
 		distanceSinceLast += distance;
 
-		if (distanceSinceLast >= 80)
+		if (distanceSinceLast >= 100)
 		{
-			AddObstacle(materialManager);
+			AddObstacle();
 			distanceSinceLast = 0;
 		}
 
@@ -75,27 +84,28 @@ namespace Boulder
 	}
 
 
-	void ObstacleManager::AddObstacle(MaterialManager materialManager)
+	void ObstacleManager::AddObstacle()
 	{
 		// Size generation
 		std::random_device rd;
 		std::mt19937 gen(rd());
-		std::uniform_int_distribution<> distr(5, maxSize);
+		std::uniform_int_distribution<> distr(minSize, maxSize);
 		int rnd = distr(gen);
 		Material material = materialManager.GetMaterial(materialManager.GetObstacleType());
-
 		Obstacle obstacle(material, rnd);
 		obstacles[obstacleAmount] = obstacle;
 		obstacleAmount++;
 	}
 
-	void ObstacleManager::RemoveObstacle()
+	Obstacle ObstacleManager::RemoveObstacle()
 	{
+		Obstacle removed = obstacles[0];
 		// Overwriting every obstacle with the next one.
 		for (int i = 0; i < obstacleAmount - 1; i++)
 		{
 			obstacles[i] = obstacles[i + 1];
 		}
 		obstacleAmount--;
+		return removed;
 	}
 }

@@ -15,11 +15,11 @@ namespace Boulder
 		Material GetMaterial(Material::RockType rockType);
 
 	private:
-		Material igneousMaterials[1];
-		Material sedimentaryMaterials[1];
-		Material metamorphicMaterials[1];
-		Material extraterrestrialMaterials[1];
-		Material metalMaterials[1];
+		Material igneousMaterials[2];
+		Material sedimentaryMaterials[2];
+		Material metamorphicMaterials[2];
+		Material extraterrestrialMaterials[2];
+		Material metalMaterials[2];
 
 		double igneousWeight;
 		double sedimentaryWeight;
@@ -27,4 +27,6 @@ namespace Boulder
 		double extraterrestrialWeight;
 		double metalWeight;
 	};
+
+	extern MaterialManager materialManager;
 }

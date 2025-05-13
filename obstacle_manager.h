@@ -7,15 +7,15 @@ namespace Boulder
 	class ObstacleManager
 	{
 	public:
-		void Init(MaterialManager materialManager);
-		void OnTick(int distance, MaterialManager materialManager);
+		void Init();
+		void OnTick(int distance);
 		bool Collided(int centerX, int centerY, int radius);
 		
 		// Obstacle Management
 		Obstacle* GetObstacles();
 		int GetObstacleAmount();
-		void AddObstacle(MaterialManager materialManager);
-		void RemoveObstacle();
+		void AddObstacle();
+		Obstacle RemoveObstacle();
 
 	private:
 		int obstacleAmount = 0;
@@ -23,6 +23,9 @@ namespace Boulder
 
 		// Obstacle generation related
 		int distanceSinceLast = 0;
-		int maxSize = 10; 
+		int minSize = 10;
+		int maxSize = 20; 
 	};
+
+	extern ObstacleManager obstacleManager;
 }

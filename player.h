@@ -35,11 +35,15 @@ namespace Boulder
 
 		// Drawing related methods
 		int GetSize();
+		float GetIntegrity();
+		float GetMaxIntegrity();
+		float GetSpeed();			// Also important for Rolling
+		float GetMaxSpeed();
 
 		// Rolling related methods
 		void Accelerate(float deltaTime);
 		void Decelerate(float deltaTime);
-		float GetSpeed();
+		void DecreaseSpeed(float value);
 
 		// Collision related methods
 		float RemainingIntegrity(float damageTaken);

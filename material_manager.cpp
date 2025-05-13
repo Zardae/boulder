@@ -1,8 +1,11 @@
 #include "material_manager.h"
 #include <random>
+#include <iostream>
 
 namespace Boulder
 {
+	MaterialManager materialManager;
+
 	MaterialManager::MaterialManager()
 	{
 		Material granite{ "Granite", Material::RockType::IGNEOUS, 10, 2, 4, 1, 10, 2, 4, 1, 0xaaaaaa };
@@ -144,7 +147,12 @@ namespace Boulder
 			typeAmount = sizeof(metalMaterials);
 		}
 
-		std::uniform_int_distribution<> distr(0, typeAmount);
+		// The size of a Material seems to be 80
+		typeAmount /= 80;
+		// Generating the distribution of the material type.
+		// The Max amount is reduced by 2 to account for arrays starting at 0 and the last place of the array being empty to ensure
+		// the types with only one material are still handled correctly.
+		std::uniform_int_distribution<> distr(0, typeAmount - 2);
 		int rnd = distr(gen);
 
 		switch (rockType)

@@ -6,11 +6,13 @@ namespace Boulder
 	Obstacle::Obstacle()
 	{
 		material;
-		size = 5;
+		size = 10;
 		density = 5;
 		brittleness = 5;
 		hardness = 5;
 
+		reward = 10;
+		
 		pos_x = 800 - size;
 		pos_y = 490 - (5 + size);
 	}
@@ -22,8 +24,10 @@ namespace Boulder
 		density = material.GenDensity();
 		brittleness = material.GenBrittleness();
 		hardness = material.GenHardness();
+		
+		reward = 5 * size;
 
-		pos_x = 800 - size;
+		pos_x = 800 - size - 5;
 		pos_y = 490 - (5 + size);
 	}
 
@@ -44,7 +48,7 @@ namespace Boulder
 
 	float Obstacle::CalcSlowdown()
 	{
-		const float SlowdownFactor = 0.25;
+		const float SlowdownFactor = 0.075;
 		return density * size * SlowdownFactor;
 	}
 
@@ -65,10 +69,19 @@ namespace Boulder
 		return pos_y;
 	}
 
-	// Size Getter Method
+	Material Obstacle::GetMaterial()
+	{
+		return material;
+	}
+
 	int Obstacle::GetSize()
 	{
 		return size;
+	}
+
+	int Obstacle::GetReward()
+	{
+		return reward;
 	}
 
 	Pixel Obstacle::GetColor()

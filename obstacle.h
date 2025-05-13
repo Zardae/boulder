@@ -25,8 +25,14 @@ namespace Boulder
 		int GetX();
 		int GetY();
 
-		// Size Getter Method
+		// Material Getter
+		Material GetMaterial();
+
+		// Size Getter
 		int GetSize();
+
+		// Reward Getter
+		int GetReward();
 
 		// Color Getter
 		Pixel GetColor();
@@ -38,6 +44,10 @@ namespace Boulder
 		float density;
 		float brittleness;
 		float hardness;
+
+		// Reward
+		int reward;
+
 
 		int pos_x;
 		int pos_y;
