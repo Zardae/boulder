@@ -46,6 +46,9 @@ public:
 	// Obstacle helper
 	void DrawObstacles();
 
+	// Stats helper
+	void DrawStats();
+
 	// Currency helper
 	void DrawCurrencies();
 

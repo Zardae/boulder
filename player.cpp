@@ -127,6 +127,26 @@ namespace Boulder
 
 	// Drawing related methods
 
+	int Player::GetDensityInt()
+	{
+		return (int)density;
+	}
+
+	int Player::GetBrittlenessInt()
+	{
+		return (int)brittleness;
+	}
+
+	int Player::GetHardnessInt()
+	{
+		return (int)hardness;
+	}
+
+	int Player::GetSmoothnessInt()
+	{
+		return (int)smoothness;
+	}
+
 	int Player::GetSize()
 	{
 		return size;

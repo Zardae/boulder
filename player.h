@@ -34,6 +34,12 @@ namespace Boulder
 		void ImproveSmoothness();
 
 		// Drawing related methods
+		int GetDensityInt();
+		int GetBrittlenessInt();
+		int GetHardnessInt();
+		int GetSmoothnessInt();
+
+
 		int GetSize();
 		float GetIntegrity();
 		float GetMaxIntegrity();

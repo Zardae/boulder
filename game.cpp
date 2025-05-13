@@ -193,7 +193,7 @@ namespace Boulder
 	{
 
 
-		
+		DrawStats();
 		DrawCurrencies();
 	}
 
@@ -201,7 +201,7 @@ namespace Boulder
 	void Game::DrawSelecting()
 	{
 
-
+		DrawStats();
 		DrawCurrencies();
 	}
 
@@ -211,7 +211,8 @@ namespace Boulder
 		DrawBoulder();
 		DrawObstacles();
 
-		// Balance
+		// Info
+		DrawStats();
 		DrawCurrencies();
 	}
 
@@ -222,7 +223,8 @@ namespace Boulder
 		DrawBoulder();
 
 
-		// Balance
+		// Info
+		DrawStats();
 		DrawCurrencies();
 	}
 
@@ -231,10 +233,13 @@ namespace Boulder
 		// Objects
 		DrawObstacles();
 
-		// Balance
+		// Info
+		DrawStats();
 		DrawCurrencies();
 	}
 
+
+	// Draws Boulder
 	void Game::DrawBoulder()
 	{
 		int diameter = 1 + 2 * (1 + player.GetSize());
@@ -274,15 +279,72 @@ namespace Boulder
 		}
 	}
 
+	// Draws Boulder Stats in top left corner
+
+	void Game::DrawStats()
+	{
+		// Draw box around stats
+		screen->Box(0, 0, 399, 55, 0xffffff);
+
+		// Left column
+		std::string stats = "Boulder Stats (roughly, rounded down)";
+
+		std::string densityStr = "Density:";
+		std::string densityValStr = std::to_string(player.GetDensityInt());
+
+		std::string brittlenessStr = "Brittleness:";
+		std::string brittlenessValStr = std::to_string(player.GetBrittlenessInt());
+
+		std::string hardnessStr = "Hardness:";
+		std::string hardnessValStr = std::to_string(player.GetHardnessInt());
+
+		std::string smoothnessStr = "Smoothness:";
+		std::string smoothnessValStr = std::to_string(player.GetSmoothnessInt());
+
+		const int labelXL = 5;
+		const int valueXL = 100;
+
+		screen->Print(stats.data(), labelXL, 5, 0xffffff);
+		screen->Print(densityStr.data(), labelXL, 15, 0xffffff);
+		screen->Print(densityValStr.data(), valueXL, 15, 0xffffff);
+		screen->Print(brittlenessStr.data(), labelXL, 25, 0xffffff);
+		screen->Print(brittlenessValStr.data(), valueXL, 25, 0xffffff);
+		screen->Print(hardnessStr.data(), labelXL, 35, 0xffffff);
+		screen->Print(hardnessValStr.data(), valueXL, 35, 0xffffff);
+		screen->Print(smoothnessStr.data(), labelXL, 45, 0xffffff);
+		screen->Print(smoothnessValStr.data(), valueXL, 45, 0xffffff);
+
+		// Right column
+		std::string sizeStr = "Size:";
+		std::string sizeValStr = std::to_string(player.GetSize());
+
+		std::string maxSpeedStr = "Max Speed:";
+		std::string maxSpeedValStr = std::to_string((int)player.GetMaxSpeed());
+
+		std::string maxIntegrityStr = "Max Integrity:";
+		std::string maxIntegrityValStr = std::to_string((int)player.GetMaxIntegrity());
+
+		const int labelXR = 205;
+		const int valueXR = 300;
+
+		screen->Print(sizeStr.data(), labelXR, 15, 0xffffff);
+		screen->Print(sizeValStr.data(), valueXR, 15, 0xffffff);
+		screen->Print(maxSpeedStr.data(), labelXR, 25, 0xffffff);
+		screen->Print(maxSpeedValStr.data(), valueXR, 25, 0xffffff);
+		screen->Print(maxIntegrityStr.data(), labelXR, 35, 0xffffff);
+		screen->Print(maxIntegrityValStr.data(), valueXR, 35, 0xffffff);
+	}
+
 
 	// Draws currency box in the top right corner
 	void Game::DrawCurrencies()
 	{
 		// Draw box around currencies
-		screen->Box(540, 0, 799, 60, 0xffffff);
+		screen->Box(540, 0, 799, 55, 0xffffff);
 
-		//Draw currencies in top right corner
-		std::string igneousStr = "Igneous";
+		// Draw currencies in top right corner
+		// Bal stands for Balance
+ 		std::string igneousStr = "Igneous";
 		std::string igneousBalStr = std::to_string(player.GetIgneous());
 
 		std::string sedimentaryStr = "Sedimentary";
@@ -299,16 +361,16 @@ namespace Boulder
 
 
 
-		screen->Print(igneousStr.data(), 550, 10, 0xaaaaaa);
-		screen->Print(igneousBalStr.data(), 680, 10, 0xaaaaaa);
-		screen->Print(sedimentaryStr.data(), 550, 20, 0xb29082);
-		screen->Print(sedimentaryBalStr.data(), 680, 20, 0xb29082);
-		screen->Print(metamorphicStr.data(), 550, 30, 0x808080);
-		screen->Print(metamorphicBalStr.data(), 680, 30, 0x808080);
-		screen->Print(extraterrestrialStr.data(), 550, 40, 0x505060);
-		screen->Print(extraterrestrialBalStr.data(), 680, 40, 0x505060);
-		screen->Print(metalStr.data(), 550, 50, 0x606070);
-		screen->Print(metalBalStr.data(), 680, 50, 0x606070);
+		screen->Print(igneousStr.data(), 550, 5, 0xaaaaaa);
+		screen->Print(igneousBalStr.data(), 680, 5, 0xaaaaaa);
+		screen->Print(sedimentaryStr.data(), 550, 15, 0xb29082);
+		screen->Print(sedimentaryBalStr.data(), 680, 15, 0xb29082);
+		screen->Print(metamorphicStr.data(), 550, 25, 0x808080);
+		screen->Print(metamorphicBalStr.data(), 680, 25, 0x808080);
+		screen->Print(extraterrestrialStr.data(), 550, 35, 0x505060);
+		screen->Print(extraterrestrialBalStr.data(), 680, 35, 0x505060);
+		screen->Print(metalStr.data(), 550, 45, 0x606070);
+		screen->Print(metalBalStr.data(), 680, 45, 0x606070);
 	}
 
 };
