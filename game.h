@@ -63,6 +63,8 @@ private:
 	// NOT the total distance, each fully travelled unit will be subtracted!
 	float smallDistanceTravelled;
 
+	float distanceSinceDiffChange;
+
 	// The following 3 members exist due to an error message popping up when
 	// initializing and using these variables inside a switch statement
 	// Pixels travelled this frame

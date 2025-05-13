@@ -1,26 +1,16 @@
 #include "player.h"
 #include <corecrt_math.h>
+#include "progression_manager.h"
 
 namespace Boulder
 {
 	Player::Player()
 	{
-		material;
-		density = 7.0;
-		brittleness = 7.0;
-		hardness = 7.0;
-		smoothness = 7.0;
-
-		size = 10;
-		mass = 15.0;
-		integrity = 1000.0;
-		max_integrity = 1000.0;
-		speed = 0.0;
-		max_speed = 50.0;
-		acceleration = 5;
-		deceleration = 5;
+		Material mat = progressionManager.GenBoulderMaterial();
+		InitNewBoulder(mat, progressionManager.GenBoulderSize(mat));
 
 
+		// Init Currencies
 		igneous = 100;
 		sedimentary = 100;
 		metamorphic = 100;
@@ -28,11 +18,30 @@ namespace Boulder
 		metal = 0;
 	}
 
-	void Player::SetMaterial(Material pmaterial)
+	void Player::InitNewBoulder(Material pmaterial, int psize)
 	{
 		material = pmaterial;
-	}
+		size = psize;
 
+		density = material.GenDensity();
+		brittleness = material.GenBrittleness();
+		hardness = material.GenHardness();
+		smoothness = material.GenSmoothness();
+
+		const float BaseIntegrity = 100.0;
+		max_integrity = BaseIntegrity * pow(1.1, density) * size;
+		integrity = max_integrity;
+		
+		speed = 0;
+		const float BaseMaxSpeed = 10;
+		max_speed = BaseMaxSpeed * pow(1.25, smoothness);
+		
+		const float BaseSpeedChange = 5.0;
+		acceleration = BaseSpeedChange * pow(1.1, smoothness);
+		deceleration = BaseSpeedChange * pow(0.95, smoothness);
+
+	}
+	
 	Material Player::GetMaterial()
 	{
 		return material;

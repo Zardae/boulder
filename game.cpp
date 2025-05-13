@@ -4,6 +4,7 @@
 #include <cstdio> //printf
 #include <iostream>
 #include <windows.h>
+#include "progression_manager.h"
 
 namespace Boulder
 {
@@ -39,6 +40,7 @@ namespace Boulder
 			
 			if (GetAsyncKeyState('D'))
 			{
+				distanceSinceDiffChange = 0;
 				player.Accelerate(deltaTime);
 				state = State::ROLLING;
 			}
@@ -71,13 +73,23 @@ namespace Boulder
 			
 			// Calculate distance travelled
 			smallDistanceTravelled += player.GetSpeed() * deltaTime / 1000;
+			distanceSinceDiffChange += smallDistanceTravelled;
 			distance = (int)smallDistanceTravelled;
 			obstacleManager.OnTick(distance);
 			smallDistanceTravelled -= distance;
 
+			
+			// Increase difficulty if travelled 200 units since last change
+			if (distanceSinceDiffChange > 200)
+			{
+				distanceSinceDiffChange = 0;
+				progressionManager.IncreaseRunDifficulty();
+			}
+			
+			
 			// Check for collision
-			// These calculations may seem a bit weird. (5 + 2 * player.GetSize()) is the radius of the boulder.
-			centerX = BoulderX + 5 + 1 * player.GetSize();	
+			// These calculations may seem a bit weird. (5 + 1 * player.GetSize()) is the radius of the boulder.
+			centerX = BoulderX + (5 + 1 * player.GetSize());
 			// The Boulder is 10 pixels further down than the actual floor, to give the impression of a slight 2.5D Perspective.
 			// So we need to subtract the radius again to get the centers y value.
 			centerY = FloorY + 10 - (5 + 1 * player.GetSize());
@@ -95,7 +107,7 @@ namespace Boulder
 			DrawStopping();
 
 			frameCounter++;
-			if (frameCounter > 150)
+			if (frameCounter > 300)
 			{
 				state = State::UPGRADING;
 				frameCounter = 0;
@@ -106,7 +118,7 @@ namespace Boulder
 			DrawBroken();
 
 			frameCounter++;
-			if (frameCounter > 150)
+			if (frameCounter > 300)
 			{
 				state = State::SELECTING;
 				frameCounter = 0;
@@ -200,6 +212,14 @@ namespace Boulder
 
 	void Game::DrawSelecting()
 	{
+		// Clarification on what to do
+		std::string row1 = "BOULDER SELECTION";
+		std::string row2 = "Click a boulder to select it";
+		screen->Print(row1.data(), 5, 65, 0xffffff);
+		screen->Print(row2.data(), 5, 75, 0xffffff);
+
+
+
 
 		DrawStats();
 		DrawCurrencies();
@@ -219,6 +239,12 @@ namespace Boulder
 
 	void Game::DrawStopping()
 	{
+		// Clarification on what is happening
+		std::string row1 = "You stopped.";
+		std::string row2 = "Entering Shop...";
+		screen->Print(row1.data(), 380, 250, 0xffffff);
+		screen->Print(row2.data(), 375, 262, 0xffffff);
+
 		// Objects
 		DrawBoulder();
 
@@ -230,6 +256,13 @@ namespace Boulder
 
 	void Game::DrawBroken()
 	{
+		// Clarification on what is happening
+		std::string row1 = "You got destroyed.";
+		std::string row2 = "Entering Boulder Selection...";
+		screen->Print(row1.data(), 375, 250, 0xffffff);
+		screen->Print(row2.data(), 370, 262, 0xffffff);
+
+
 		// Objects
 		DrawObstacles();
 
@@ -358,8 +391,6 @@ namespace Boulder
 
 		std::string metalStr = "Metal";
 		std::string metalBalStr = std::to_string(player.GetMetal());
-
-
 
 		screen->Print(igneousStr.data(), 550, 5, 0xaaaaaa);
 		screen->Print(igneousBalStr.data(), 680, 5, 0xaaaaaa);

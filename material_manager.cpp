@@ -147,6 +147,7 @@ namespace Boulder
 			typeAmount = sizeof(metalMaterials);
 		}
 
+
 		// The size of a Material seems to be 80
 		typeAmount /= 80;
 		// Generating the distribution of the material type.
@@ -168,5 +169,8 @@ namespace Boulder
 		case Material::RockType::METAL:
 			return metalMaterials[rnd];
 		}
+
+		// Fallback (should not be reached)
+		return igneousMaterials[0];
 	}
 }

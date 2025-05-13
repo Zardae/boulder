@@ -229,9 +229,12 @@
     <ClCompile Include="obstacle.cpp" />
     <ClCompile Include="obstacle_manager.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="progression_manager.cpp" />
+    <ClCompile Include="selection_manager.cpp" />
     <ClCompile Include="surface.cpp" />
     <ClCompile Include="template.cpp" />
     <ClCompile Include="upgrade.cpp" />
+    <ClCompile Include="upgrade_manager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
@@ -240,6 +243,8 @@
     <ClInclude Include="obstacle.h" />
     <ClInclude Include="obstacle_manager.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="progression_manager.h" />
+    <ClInclude Include="selection_manager.h" />
     <ClInclude Include="surface.h" />
     <ClInclude Include="template.h" />
     <ClInclude Include="upgrade.h" />

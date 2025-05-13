@@ -1,7 +1,7 @@
 #include "obstacle_manager.h"
 #include <corecrt_math.h>
 #include <random>
-#include <iostream>
+#include "progression_manager.h"
 
 namespace Boulder
 {
@@ -86,13 +86,7 @@ namespace Boulder
 
 	void ObstacleManager::AddObstacle()
 	{
-		// Size generation
-		std::random_device rd;
-		std::mt19937 gen(rd());
-		std::uniform_int_distribution<> distr(minSize, maxSize);
-		int rnd = distr(gen);
-		Material material = materialManager.GetMaterial(materialManager.GetObstacleType());
-		Obstacle obstacle(material, rnd);
+		Obstacle obstacle = progressionManager.GenObstacle();
 		obstacles[obstacleAmount] = obstacle;
 		obstacleAmount++;
 	}

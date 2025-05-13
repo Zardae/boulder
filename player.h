@@ -12,8 +12,8 @@ namespace Boulder
 	{
 	public:
 		Player();
-		void SetMaterial(Material pmaterial);
-		Boulder::Material GetMaterial();
+		void InitNewBoulder(Material pmaterial, int psize);
+		Material GetMaterial();
 		unsigned int GetColorCode();
 
 		// Currency related methods
@@ -66,7 +66,6 @@ namespace Boulder
 		float smoothness;
 
 		int size;
-		float mass;
 		float integrity;
 		float max_integrity;
 		float speed;
