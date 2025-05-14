@@ -39,6 +39,7 @@ namespace Boulder
 		void UpdateCanPurchase(Player& player);
 		bool CanPurchase();
 		void Purchase(Player& player);
+		void ResetTimesPurchased();
 
 		void Draw(Surface* screen);
 	private:

@@ -2,10 +2,6 @@
 #include "material.h"
 #include "obstacle.h"
 
-//
-// Defines the "player"
-//
-
 namespace Boulder
 {
 	class Player
@@ -50,6 +46,10 @@ namespace Boulder
 		float GetMaxIntegrity();
 		float GetSpeed();			// Also important for Rolling
 		float GetMaxSpeed();
+
+		// Update Max Integrity, Max Speed, Acceleration and Decceleration
+		// Called after creating Boulder and Updating Stat
+		void UpdateSecondaryStats();
 
 		// Rolling related methods
 		void Accelerate(float deltaTime);

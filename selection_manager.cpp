@@ -73,11 +73,32 @@ namespace Boulder
 	void SelectionManager::Draw(Surface* screen)
 	{
 		// Draw Boulder Preview
-		int rad = 1 + size1;
-		screen->Circle(pos1X - rad, posY - rad, rad, mat1.GetColorCode());
-		rad = 1 + size2;
-		screen->Circle(pos2X - rad, posY - rad, rad, mat2.GetColorCode());
-		rad = 1 + size3;
-		screen->Circle(pos3X - rad, posY - rad, rad, mat3.GetColorCode());
+		int rad1 = 1 + size1;
+		screen->Circle(pos1X - rad1, posY - rad1, rad1, mat1.GetColorCode());
+		int rad2 = 1 + size2;
+		screen->Circle(pos2X - rad2, posY - rad2, rad2, mat2.GetColorCode());
+		int rad3 = 1 + size3;
+		screen->Circle(pos3X - rad3, posY - rad3, rad3, mat3.GetColorCode());
+
+		// Draw Boulder Info
+		std::string cost1str = std::to_string(cost1);
+		std::string cost2str = std::to_string(cost2);
+		std::string cost3str = std::to_string(cost3);
+
+		std::string size1str = std::to_string(size1);
+		std::string size2str = std::to_string(size2);
+		std::string size3str = std::to_string(size3);
+
+		screen->Print(mat1.GetName().data(), pos1X - rad1, posY + rad1 + 5, mat1.GetColorCode());
+		screen->Print(cost1str.data(), pos1X - rad1, posY + rad1 + 15, mat1.GetColorCode());
+		screen->Print(size1str.data(), pos1X - rad1, posY + rad1 + 25, 0xffffff);
+
+		screen->Print(mat2.GetName().data(), pos2X - rad2, posY + rad2 + 5, mat2.GetColorCode());
+		screen->Print(cost2str.data(), pos2X - rad2, posY + rad2 + 15, mat2.GetColorCode());
+		screen->Print(size2str.data(), pos2X - rad2, posY + rad2 + 25, 0xffffff);
+
+		screen->Print(mat3.GetName().data(), pos3X - rad3, posY + rad3 + 5, mat3.GetColorCode());
+		screen->Print(cost3str.data(), pos3X - rad3, posY + rad3 + 15, mat3.GetColorCode());
+		screen->Print(size3str.data(), pos3X - rad3, posY + rad3 + 25, 0xffffff);
 	}
 }

@@ -226,6 +226,12 @@ namespace Boulder
 
 	}
 
+	void Upgrade::ResetTimesPurchased()
+	{
+		timesPurchased = 0;
+	}
+
+
 	void Upgrade::Draw(Surface* screen)
 	{
 		// Draw Box

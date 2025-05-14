@@ -31,14 +31,14 @@ namespace Boulder
 		Material mat3;
 
 		// Selection sizes
-		int size1;
-		int size2;
-		int size3;
+		int size1 = 0;
+		int size2 = 0;
+		int size3 = 0;
 
 		// Selection costs
-		int cost1;
-		int cost2;
-		int cost3;
+		int cost1 = 0;
+		int cost2 = 0;
+		int cost3 = 0;
 
 		// Drawing and selection related constants
 		const int pos1X = 199;

@@ -196,12 +196,34 @@ namespace Boulder
 	}
 
 
+	void UpgradeManager::ResetTimesPurchased()
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			for (int j = 0; j < 2; j++)
+			{
+				boulderUpgrades[j][i].ResetTimesPurchased();
+			}
+		}
 
+		for (int i = 0; i < 5; i++)
+		{
+			for (int j = 0; j < 2; j++)
+			{
+				chanceUpgrades[j][i].ResetTimesPurchased();
+			}
+		}
+
+		for (int i = 0; i < 4; i++)
+		{
+			metaUpgrades[i].ResetTimesPurchased();
+		}
+	}
 
 
 	void UpgradeManager::Draw(Surface* screen)
 	{
-		// Update boulder upgrades
+		// Draw all upgrades by calling their draw method
 		for (int i = 0; i < 4; i++)
 		{
 			for (int j = 0; j < 2; j++)
@@ -210,7 +232,6 @@ namespace Boulder
 			}
 		}
 
-		// Update chance upgrades
 		for (int i = 0; i < 5; i++)
 		{
 			for (int j = 0; j < 2; j++)
@@ -219,7 +240,6 @@ namespace Boulder
 			}
 		}
 
-		// Update meta upgrades
 		for (int i = 0; i < 4; i++)
 		{
 			metaUpgrades[i].Draw(screen);

@@ -28,17 +28,7 @@ namespace Boulder
 		hardness = material.GenHardness();
 		smoothness = material.GenSmoothness();
 
-		const float BaseIntegrity = 100.0;
-		max_integrity = BaseIntegrity * pow(1.1, density) * size;
-		integrity = max_integrity;
-		
-		speed = 0;
-		const float BaseMaxSpeed = 10;
-		max_speed = BaseMaxSpeed * pow(1.25, smoothness);
-		
-		const float BaseSpeedChange = 5.0;
-		acceleration = BaseSpeedChange * pow(1.1, smoothness);
-		deceleration = BaseSpeedChange * pow(0.95, smoothness);
+		UpdateSecondaryStats();
 
 	}
 	
@@ -169,6 +159,7 @@ namespace Boulder
 			smoothness += value;
 			break;
 		}
+		UpdateSecondaryStats();
 	}
 
 	void Player::MultStat(float value, Stat stat)
@@ -188,6 +179,7 @@ namespace Boulder
 			smoothness *= value;
 			break;
 		}
+		UpdateSecondaryStats();
 	}
 
 
@@ -236,6 +228,22 @@ namespace Boulder
 	float Player::GetMaxSpeed()
 	{
 		return max_speed;
+	}
+
+	// Update Stats
+	void Player::UpdateSecondaryStats()
+	{
+		const float BaseIntegrity = 100.0;
+		max_integrity = BaseIntegrity * pow(1.1, density) * size;
+		integrity = max_integrity;
+
+		speed = 0;
+		const float BaseMaxSpeed = 10;
+		max_speed = BaseMaxSpeed * pow(1.25, smoothness);
+
+		const float BaseSpeedChange = 5.0;
+		acceleration = BaseSpeedChange * pow(1.1, smoothness);
+		deceleration = BaseSpeedChange * pow(0.95, smoothness);
 	}
 
 	// Rolling related methods

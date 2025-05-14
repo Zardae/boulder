@@ -149,7 +149,11 @@ namespace Boulder
 			if (frameCounter > 300)
 			{
 				// Enter next state
-				selectionManager.InitSelection(); 
+
+				// Initialize Boulder Selection
+				selectionManager.InitSelection();
+				// Reset Times Purchased
+				upgradeManager.ResetTimesPurchased();
 				state = State::SELECTING;
 				frameCounter = 0;
 			}
