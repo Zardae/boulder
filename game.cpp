@@ -44,16 +44,17 @@ namespace Boulder
 			{
 				distanceSinceDiffChange = 0;
 				player.Accelerate(deltaTime);
+				frameCounter = 0;
 				state = State::ROLLING;
 			}
 			break;
 		case State::UPGRADING:
-			if (GetAsyncKeyState('D'))
+			if (GetAsyncKeyState('D') && frameCounter > 100)
 			{
-				std::cout << "huh";
 				distanceSinceDiffChange = 0;
 				player.Accelerate(deltaTime);
 				player.UpdateSecondaryStats();
+				frameCounter = 0;
 				state = State::ROLLING;
 			} 
 			else if (GetAsyncKeyState(VK_LBUTTON))
@@ -77,6 +78,7 @@ namespace Boulder
 				int sel = selectionManager.DetermineSelection(mousex, mousey);
 				if (sel > 0 && selectionManager.Select(player, sel))
 				{
+					frameCounter = 0;
 					state = State::UPGRADING;
 					DrawSelecting();
 					break;
@@ -95,6 +97,7 @@ namespace Boulder
 				player.Decelerate(deltaTime);
 				if (player.GetSpeed() == 0)
 				{
+					frameCounter = 0;
 					state = State::STOPPING;
 				}
 			}
@@ -136,6 +139,7 @@ namespace Boulder
 			if (frameCounter > 300)
 			{
 				// Enter next state
+				frameCounter = 0;
 				state = State::UPGRADING;
 
 				// Update what upgrades the player can purchase

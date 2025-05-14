@@ -18,6 +18,8 @@ public:
 		STOPPING,		// Transition State Rolling to Upgrade
 		BROKEN			// Transition State Rolling to Boulder Select
 	};
+
+	// Defined by the template
 	void SetTarget( Surface* surface ) { screen = surface; }
 	void Init();
 	void Shutdown();
