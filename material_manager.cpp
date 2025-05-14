@@ -105,24 +105,6 @@ namespace Boulder
 		}
 	}
 
-	Material::RockType MaterialManager::GetObstacleType()
-	{
-		// This method of sampling was suggested by Jeremiah.
-		std::random_device rd;
-		std::mt19937 gen(rd());
-		std::discrete_distribution<> distr({
-			10,		// Igneous
-			10,		// Sedimentary
-			10,		// Metamorphic
-			1,		// Extraterrestrial
-			2		// Metal
-			});
-
-		Material::RockType ret = static_cast<Material::RockType>(distr(gen));	// According to a stack overflow answer
-																				// the static cast is dangerous, but I
-																				// was unable to find something better as of yet
-		return ret;
-	}
 
 	Material MaterialManager::GetMaterial(Material::RockType rockType)
 	{

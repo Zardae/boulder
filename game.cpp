@@ -51,6 +51,8 @@ namespace Boulder
 		case State::UPGRADING:
 			if (GetAsyncKeyState('D') && frameCounter > 100)
 			{
+				// Starts a new run, resetting temporary changes
+				progressionManager.ResetRun();
 				distanceSinceDiffChange = 0;
 				player.Accelerate(deltaTime);
 				player.UpdateSecondaryStats();

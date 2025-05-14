@@ -8,10 +8,14 @@ namespace Boulder
 	public:
 		MaterialManager();
 
+		// Manage Selection weights
 		void IncreaseWeight(Material::RockType prockType, int value);
 		void DecreaseWeight(Material::RockType prockType, int value);
+
+		// Sample a type based on weights
 		Material::RockType GetTypeSample();
-		Material::RockType GetObstacleType();
+
+		// Sample a Material based on given type
 		Material GetMaterial(Material::RockType rockType);
 
 	private:
