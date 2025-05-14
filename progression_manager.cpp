@@ -98,7 +98,7 @@ namespace Boulder
 																						// the static cast is dangerous, but I
 																						// was unable to find something better as of yet
 
-		Material material = materialManager.GetMaterial(rockType);
+		Material* material = materialManager.GetMaterial(rockType);
 		// Generate Size
 		std::uniform_int_distribution<> distrSize(obstacleSizes[rockType][0], obstacleSizes[rockType][1]);
 		int size = distrSize(gen);
@@ -116,7 +116,7 @@ namespace Boulder
 		return ret;
 	}
 
-	Material ProgressionManager::GenBoulderMaterial()
+	Material* ProgressionManager::GenBoulderMaterial()
 	{
 		std::random_device rd;
 		std::mt19937 gen(rd());
@@ -129,16 +129,17 @@ namespace Boulder
 			});
 		
 		Material::RockType rockType = static_cast<Material::RockType>(distr(gen));
-		Material material = materialManager.GetMaterial(rockType);
+		Material* material = materialManager.GetMaterial(rockType);
 		return material;
 	}
 
-	int ProgressionManager::GenBoulderSize(Material material)
+	int ProgressionManager::GenBoulderSize(Material* material)
 	{
 		std::random_device rd;
 		std::mt19937 gen(rd());
 
-		int i = material.GetRockType();
+		// WTF
+		int i = material->GetRockType();
 
 		std::uniform_int_distribution<> distr(selectionSizes[i][0], selectionSizes[i][1]);
 

@@ -17,13 +17,13 @@ namespace Boulder
 		pos_y = 490 - (5 + size);
 	}
 
-	Obstacle::Obstacle(Material pmaterial, float psize)
+	Obstacle::Obstacle(Material* pmaterial, float psize)
 	{
 		material = pmaterial;
 		size = psize;
-		density = material.GenDensity();
-		brittleness = material.GenBrittleness();
-		hardness = material.GenHardness();
+		density = material->GenDensity();
+		brittleness = material->GenBrittleness();
+		hardness = material->GenHardness();
 		
 		reward = 5 * size;
 
@@ -69,7 +69,7 @@ namespace Boulder
 		return pos_y;
 	}
 
-	Material Obstacle::GetMaterial()
+	Material* Obstacle::GetMaterial()
 	{
 		return material;
 	}
@@ -86,6 +86,6 @@ namespace Boulder
 
 	Pixel Obstacle::GetColor()
 	{
-		return material.GetColorCode();
+		return material->GetColorCode();
 	}
 }

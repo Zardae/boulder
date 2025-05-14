@@ -14,8 +14,8 @@ namespace Boulder
 			SMOOTHNESS
 		};
 		Player();
-		void InitNewBoulder(Material pmaterial, int psize);
-		Material GetMaterial();
+		void InitNewBoulder(Material* pmaterial, int psize);
+		Material* GetMaterial();
 		unsigned int GetColorCode();
 
 		// Currency related methods
@@ -64,7 +64,7 @@ namespace Boulder
 
 	private:
 		// Boulder related members
-		Material material;
+		Material* material;
 		float density;
 		float brittleness;
 		float hardness;

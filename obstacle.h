@@ -11,7 +11,7 @@ namespace Boulder
 	{
 	public:
 		Obstacle();
-		Obstacle(Material pmaterial, float psize);
+		Obstacle(Material* pmaterial, float psize);
 
 		// Collision related 
 		float CalcAtk();
@@ -26,7 +26,7 @@ namespace Boulder
 		int GetY();
 
 		// Material Getter
-		Material GetMaterial();
+		Material* GetMaterial();
 
 		// Size Getter
 		int GetSize();
@@ -38,7 +38,7 @@ namespace Boulder
 		Pixel GetColor();
 
 	private:
-		Material material;
+		Material* material;
 		float size;
 		// Smoothness not needed as it only affects speed and acceleration. Obstacles are stationary.
 		float density;

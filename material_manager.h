@@ -16,7 +16,7 @@ namespace Boulder
 		Material::RockType GetTypeSample();
 
 		// Sample a Material based on given type
-		Material GetMaterial(Material::RockType rockType);
+		Material* GetMaterial(Material::RockType rockType);
 
 	private:
 		Material igneousMaterials[2];

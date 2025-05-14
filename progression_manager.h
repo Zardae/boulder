@@ -29,9 +29,9 @@ namespace Boulder
 		Obstacle GenObstacle();
 
 		// Generates a boulder material based on weights
-		Material GenBoulderMaterial();
+		Material* GenBoulderMaterial();
 		// Generates a boulder size based on range
-		int GenBoulderSize(Material material);
+		int GenBoulderSize(Material* material);
 
 	private:
 		int baseDifficulty = 1;

@@ -6,7 +6,7 @@ namespace Boulder
 {
 	Player::Player()
 	{
-		Material mat = progressionManager.GenBoulderMaterial();
+		Material* mat = progressionManager.GenBoulderMaterial();
 		InitNewBoulder(mat, progressionManager.GenBoulderSize(mat));
 
 
@@ -18,28 +18,28 @@ namespace Boulder
 		metal = 0;
 	}
 
-	void Player::InitNewBoulder(Material pmaterial, int psize)
+	void Player::InitNewBoulder(Material* pmaterial, int psize)
 	{
 		material = pmaterial;
 		size = psize;
 
-		density = material.GenDensity();
-		brittleness = material.GenBrittleness();
-		hardness = material.GenHardness();
-		smoothness = material.GenSmoothness();
+		density = material->GenDensity();
+		brittleness = material->GenBrittleness();
+		hardness = material->GenHardness();
+		smoothness = material->GenSmoothness();
 
 		UpdateSecondaryStats();
 
 	}
 	
-	Material Player::GetMaterial()
+	Material* Player::GetMaterial()
 	{
 		return material;
 	}
 
 	unsigned int Player::GetColorCode()
 	{
-		return material.GetColorCode();
+		return material->GetColorCode();
 	}
 
 	//

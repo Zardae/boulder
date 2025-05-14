@@ -52,6 +52,7 @@ namespace Boulder
 
 	Material::RockType Material::GetRockType()
 	{
+		//TODO
 		return rock_type;
 	}
 

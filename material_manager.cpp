@@ -8,24 +8,24 @@ namespace Boulder
 
 	MaterialManager::MaterialManager()
 	{
-		Material granite{ "Granite", Material::RockType::IGNEOUS, 10, 2, 4, 1, 10, 2, 4, 1, 0xaaaaaa };
+		Material granite((std::string)"Granite", Material::RockType::IGNEOUS, 10, 2, 4, 1, 10, 2, 4, 1, 0xaaaaaa);
 		igneousMaterials[0] = granite;
 		igneousWeight = 20;
 
 
-		Material sandstone{ "Sandstone", Material::RockType::SEDIMENTARY, 5, 1, 7, 1, 5, 2, 9, 2, 0xb29082 };
+		Material sandstone((std::string)"Sandstone", Material::RockType::SEDIMENTARY, 5, 1, 7, 1, 5, 2, 9, 2, 0xb29082);
 		sedimentaryMaterials[0] = sandstone;
 		sedimentaryWeight = 40;
 
-		Material gneiss{ "Gneiss", Material::RockType::METAMORPHIC, 8, 1, 4, 1, 8, 2, 6, 2, 0x808080 };
+		Material gneiss((std::string)"Gneiss", Material::RockType::METAMORPHIC, 8, 1, 4, 1, 8, 2, 6, 2, 0x808080);
 		metamorphicMaterials[0] = gneiss;
 		metamorphicWeight = 20;
 
-		Material meteorIron("Meteoritic Iron", Material::RockType::EXTRATERRESTRIAL, 12, 1, 2, 1, 10, 1, 6, 2, 0x505060);
+		Material meteorIron((std::string)"Meteoritic Iron", Material::RockType::EXTRATERRESTRIAL, 12, 1, 2, 1, 10, 1, 6, 2, 0x505060);
 		extraterrestrialMaterials[0] = meteorIron;
 		extraterrestrialWeight = 0;
 
-		Material iron("Iron", Material::RockType::METAL, 10, 1, 4, 1, 8, 1, 8, 1, 0x606070);
+		Material iron((std::string)"Iron", Material::RockType::METAL, 10, 1, 4, 1, 8, 1, 8, 1, 0x606070);
 		metalMaterials[0] = iron;
 		metalWeight = 0;
 	}
@@ -106,7 +106,7 @@ namespace Boulder
 	}
 
 
-	Material MaterialManager::GetMaterial(Material::RockType rockType)
+	Material* MaterialManager::GetMaterial(Material::RockType rockType)
 	{
 		// Method for the case that more Materials per type are added
 		std::random_device rd;
@@ -142,22 +142,21 @@ namespace Boulder
 		// the types with only one material are still handled correctly.
 		std::uniform_int_distribution<> distr(0, typeAmount - 2);
 		int rnd = distr(gen);
+		Material* ret;
 
 		switch (rockType)
 		{
 		case Material::RockType::IGNEOUS:
-			return igneousMaterials[rnd];
+			ret = &igneousMaterials[rnd];
 		case Material::RockType::SEDIMENTARY:
-			return sedimentaryMaterials[rnd];
+			ret = &sedimentaryMaterials[rnd];
 		case Material::RockType::METAMORPHIC:
-			return metamorphicMaterials[rnd];
+			ret = &metamorphicMaterials[rnd];
 		case Material::RockType::EXTRATERRESTRIAL:
-			return extraterrestrialMaterials[rnd];
+			ret = &extraterrestrialMaterials[rnd];
 		case Material::RockType::METAL:
-			return metalMaterials[rnd];
+			ret = &metalMaterials[rnd];
 		}
-
-		// Fallback (should not be reached)
-		return igneousMaterials[0];
+		return ret;
 	}
 }

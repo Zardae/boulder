@@ -26,9 +26,9 @@ namespace Boulder
 		
 	private:
 		// Selection materials
-		Material mat1;
-		Material mat2;
-		Material mat3;
+		Material* mat1;
+		Material* mat2;
+		Material* mat3;
 
 		// Selection sizes
 		int size1 = 0;

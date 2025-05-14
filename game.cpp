@@ -49,7 +49,8 @@ namespace Boulder
 			}
 			break;
 		case State::UPGRADING:
-			if (GetAsyncKeyState('D') && frameCounter > 100)
+			frameCounter++;
+			if (GetAsyncKeyState('D') && frameCounter > 10)
 			{
 				// Starts a new run, resetting temporary changes
 				progressionManager.ResetRun();
@@ -70,7 +71,7 @@ namespace Boulder
 			DrawUpgrading();
 			break;
 		case State::SELECTING:
-
+			frameCounter++;
 			if (GetAsyncKeyState(VK_LBUTTON))
 			{
 				lButtonWasPressed = true;
@@ -90,6 +91,7 @@ namespace Boulder
 			DrawSelecting();
 			break;
 		case State::ROLLING:
+			frameCounter++;
 			if (GetAsyncKeyState('D'))
 			{
 				player.Accelerate(deltaTime);
@@ -207,7 +209,7 @@ namespace Boulder
 			if (offDiff > 0) {
 				// Boulder dealt enough damage to destroy Obstacle
 				Obstacle removed = obstacleManager.RemoveObstacle();
-				player.AddCurrency(removed.GetMaterial().GetRockType(), removed.GetReward());
+				player.AddCurrency(removed.GetMaterial()->GetRockType(), removed.GetReward());
 			}
 			return State::BROKEN;
 		}
@@ -216,13 +218,13 @@ namespace Boulder
 			if (offDiff > 0) {
 				// Dealt enough damage to destroy Obstacle
 				Obstacle removed = obstacleManager.RemoveObstacle();
-				player.AddCurrency(removed.GetMaterial().GetRockType(), removed.GetReward());
+				player.AddCurrency(removed.GetMaterial()->GetRockType(), removed.GetReward());
 			}
 			return State::STOPPING;
 		}
 
 		Obstacle removed = obstacleManager.RemoveObstacle();
-		player.AddCurrency(removed.GetMaterial().GetRockType(), removed.GetReward());
+		player.AddCurrency(removed.GetMaterial()->GetRockType(), removed.GetReward());
 		return State::ROLLING;
 
 	}
