@@ -119,14 +119,19 @@ namespace Boulder
 		{
 		case Material::RockType::IGNEOUS:
 			typeAmount = sizeof(igneousMaterials);
+			break;
 		case Material::RockType::SEDIMENTARY:
 			typeAmount = sizeof(sedimentaryMaterials);
+			break;
 		case Material::RockType::METAMORPHIC:
 			typeAmount = sizeof(metamorphicMaterials);
+			break;
 		case Material::RockType::EXTRATERRESTRIAL:
 			typeAmount = sizeof(extraterrestrialMaterials);
+			break;
 		case Material::RockType::METAL:
 			typeAmount = sizeof(metalMaterials);
+			break;
 		}
 
 
