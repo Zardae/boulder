@@ -15,6 +15,7 @@ namespace Boulder
 	void Game::Init()
 	{
 		obstacleManager.Init();
+		upgradeManager.Init();
 		this->state = START;
 	}
 	
@@ -45,17 +46,28 @@ namespace Boulder
 				player.Accelerate(deltaTime);
 				state = State::ROLLING;
 			}
-
 			break;
 		case State::UPGRADING:
-			
-
-
+			if (GetAsyncKeyState('D'))
+			{
+				distanceSinceDiffChange = 0;
+				player.Accelerate(deltaTime);
+				state = State::ROLLING;
+			} 
+			else if (GetAsyncKeyState(VK_LBUTTON))
+			{
+				lButtonWasPressed = true;
+			}
+			else if (LButtonReleased())
+			{
+				upgradeManager.OnMouseClick(mousex, mousey, player);
+			}
 			DrawUpgrading();
 			break;
 		case State::SELECTING:
 
-			if (GetAsyncKeyState(VK_LBUTTON)) {
+			if (GetAsyncKeyState(VK_LBUTTON))
+			{
 				lButtonWasPressed = true;
 			}
 			if (LButtonReleased())
@@ -64,6 +76,7 @@ namespace Boulder
 				if (sel > 0 && selectionManager.Select(player, sel))
 				{
 					state = State::UPGRADING;
+					DrawSelecting();
 					break;
 				}
 			}
@@ -122,6 +135,9 @@ namespace Boulder
 			{
 				// Enter next state
 				state = State::UPGRADING;
+
+				// Update what upgrades the player can purchase
+				upgradeManager.UpdateUpgradeCanPurchase(player);
 				frameCounter = 0;
 			}
 			break;
@@ -217,7 +233,7 @@ namespace Boulder
 
 	void Game::DrawUpgrading()
 	{
-
+		upgradeManager.Draw(screen);
 
 		DrawStats();
 		DrawCurrencies();

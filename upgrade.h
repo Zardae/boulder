@@ -1,48 +1,66 @@
 #pragma once
 #include "surface.h"
 #include <string>
-#include "player.h"
 #include "material_manager.h"
+#include "progression_manager.h"
+#include "player.h"
 
 namespace Boulder
 {
 	class Upgrade
 	{
 	public:
-		enum UpgradeMode {
+		enum Mode {
 			ADDITIVE,
 			MULTIPLICATIVE
 		};
-		enum UpgradeTarget {
+		enum Target {
 			DENSITY,
 			BRITTLENESS,
 			HARDNESS,
 			SMOOTHNESS,
-			CHANCE_IGNEOUS,
-			CHANCE_SEDIMENTARY,
-			CHANCE_METAMORPHIC,
-			CHANCE_EXTRATERRESTRIAL,
-			CHANCE_METAL
+			IGNEOUS,
+			SEDIMENTARY,
+			METAMORPHIC,
+			EXTRATERRESTRIAL,
+			METAL,
+			SELECTION,
+			DIFFICULTY
 		};
 
 		Upgrade();
-		Upgrade(UpgradeMode pmode, UpgradeTarget ptarget, std::string pname, int pbaseCostIgneous, int pbaseCostSedimentary, int pbaseCostMetamorphic, int pbaseCostExtraterrestrial, int pbaseCostMetal, float pcostCreepMult);
+		Upgrade(Mode pmode, Target ptarget, std::string pname, float pvalue, int pbaseCostIgneous, int pbaseCostSedimentary, int pbaseCostMetamorphic, int pbaseCostExtraterrestrial, int pbaseCostMetal, float pcostCreepMult, int pX, int pY);
+		// Constructor for chance upgrades to reduce clutter
+		Upgrade(Target ptarget, std::string pname, float pvalue, int baseCost, Material::RockType rockType, float pcostCreepMult, int pX, int pY);
+		// Constructor for meta progression upgrades
+		Upgrade(Target ptarget, std::string pname, int pbaseCostIgneous, int pbaseCostSedimentary, int pbaseCostMetamorphic, int pbaseCostExtraterrestrial, int pbaseCostMetal, float pcostCreepMult, int pX, int pY);
 
-		bool CanPurchase(Player& player);
-		void PurchaseUpgrade(Player& player);
+		// Purchase related methods
+		void UpdateCanPurchase(Player& player);
+		bool CanPurchase();
+		void Purchase(Player& player);
 
-
-		void Draw(Surface& screen, Player& player, int posX, int posY);
+		void Draw(Surface* screen);
 	private:
-		UpgradeMode mode;
-		UpgradeTarget target;
+		// Cost related values
+		Mode mode;
+		Target target;
 		std::string name;
-		int baseCostIgneous;
-		int baseCostSedimentary;
-		int baseCostMetamorphic;
-		int baseCostExtraterrestrial;
-		int baseCostMetal;
+		float value;
+		int baseCostIgneous = 0;
+		int baseCostSedimentary = 0;
+		int baseCostMetamorphic = 0;
+		int baseCostExtraterrestrial = 0;
+		int baseCostMetal = 0;
 		int timesPurchased;
 		float costCreepMult;
+
+		// Position in upgrade screen
+		int posX;
+		int posY;
+
+		// Bool to see if the upgrade can be purchased
+		// This was added to not check every upgrade every frame
+		bool canPurchase = false;
 	};
 }

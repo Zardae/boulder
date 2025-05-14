@@ -53,6 +53,11 @@ namespace Boulder
 
 	void ProgressionManager::DecreaseSelectionLevel()
 	{
+		if (selectionLevel == 1)
+		{
+			// Guard clause against decreasing the selection level too far
+			return;
+		}
 		selectionLevel--;
 
 		for (int i = 0; i < 5; i++)
@@ -63,6 +68,13 @@ namespace Boulder
 			}
 		}
 	}
+
+	void ProgressionManager::ChangeWeight(Material::RockType type, int value)
+	{
+		// type can be used here as the weights are in the same order as the enum declaration
+		selectionWeights[type] += value;
+	}
+
 
 	void ProgressionManager::IncreaseRunDifficulty()
 	{

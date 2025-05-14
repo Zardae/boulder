@@ -1,6 +1,7 @@
 #pragma once
 #include "material_manager.h"
 #include "obstacle_manager.h"
+#include "upgrade_manager.h"
 #include "player.h"
 
 namespace Boulder {

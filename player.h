@@ -11,6 +11,12 @@ namespace Boulder
 	class Player
 	{
 	public:
+		enum Stat {
+			DENSITY,
+			BRITTLENESS,
+			HARDNESS,
+			SMOOTHNESS
+		};
 		Player();
 		void InitNewBoulder(Material pmaterial, int psize);
 		Material GetMaterial();
@@ -29,10 +35,8 @@ namespace Boulder
 
 
 		// Upgrade related methods
-		void ImproveDensity();
-		void ImproveBrittleness();
-		void ImproveHardness();
-		void ImproveSmoothness();
+		void AddStat(float value, Stat stat);
+		void MultStat(float value, Stat stat);
 
 		// Drawing related methods
 		int GetDensityInt();

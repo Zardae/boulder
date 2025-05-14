@@ -3,6 +3,7 @@
 #include "obstacle.h"
 
 
+
 namespace Boulder
 {
 	class ProgressionManager
@@ -11,12 +12,18 @@ namespace Boulder
 		// Resets temporary changes
 		void ResetRun();
 
+		// Base difficulty management
 		void IncreaseBaseDifficulty();
 		void DecreaseBaseDifficulty();
 
+		// Selection level management
 		void IncreaseSelectionLevel();
 		void DecreaseSelectionLevel();
 
+		// Change selection weights
+		void ChangeWeight(Material::RockType type, int value);
+
+		// Run difficulty
 		void IncreaseRunDifficulty();
 		// Generates an obstacle based on Weights, size and difficulty
 		Obstacle GenObstacle();

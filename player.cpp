@@ -148,7 +148,47 @@ namespace Boulder
 	}
 
 	// Upgrade realted methods
+	void Player::AddStat(float value, Stat stat)
+	{
+		switch (stat)
+		{
+		case Stat::DENSITY:
+			density += value;
+			break;
+		case Stat::BRITTLENESS:
+			brittleness += value;
+			if (brittleness < 0)
+			{
+				brittleness = 0;
+			}
+			break;
+		case Stat::HARDNESS:
+			hardness += value;
+			break;
+		case Stat::SMOOTHNESS:
+			smoothness += value;
+			break;
+		}
+	}
 
+	void Player::MultStat(float value, Stat stat)
+	{
+		switch (stat)
+		{
+		case Stat::DENSITY:
+			density *= value;
+			break;
+		case Stat::BRITTLENESS:
+			brittleness *= value;
+			break;
+		case Stat::HARDNESS:
+			hardness *= value;
+			break;
+		case Stat::SMOOTHNESS:
+			smoothness *= value;
+			break;
+		}
+	}
 
 
 	// Drawing related methods
