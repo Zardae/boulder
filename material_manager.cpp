@@ -118,25 +118,21 @@ namespace Boulder
 		switch (rockType)
 		{
 		case Material::RockType::IGNEOUS:
-			typeAmount = sizeof(igneousMaterials);
+			typeAmount = std::size(igneousMaterials);
 			break;
 		case Material::RockType::SEDIMENTARY:
-			typeAmount = sizeof(sedimentaryMaterials);
+			typeAmount = std::size(sedimentaryMaterials);
 			break;
 		case Material::RockType::METAMORPHIC:
-			typeAmount = sizeof(metamorphicMaterials);
+			typeAmount = std::size(metamorphicMaterials);
 			break;
 		case Material::RockType::EXTRATERRESTRIAL:
-			typeAmount = sizeof(extraterrestrialMaterials);
+			typeAmount = std::size(extraterrestrialMaterials);
 			break;
 		case Material::RockType::METAL:
-			typeAmount = sizeof(metalMaterials);
+			typeAmount = std::size(metalMaterials);
 			break;
 		}
-
-
-		// The size of a Material seems to be 80
-		typeAmount /= 80;
 		// Generating the distribution of the material type.
 		// The Max amount is reduced by 2 to account for arrays starting at 0 and the last place of the array being empty to ensure
 		// the types with only one material are still handled correctly.
@@ -148,14 +144,22 @@ namespace Boulder
 		{
 		case Material::RockType::IGNEOUS:
 			ret = &igneousMaterials[rnd];
+			break;
 		case Material::RockType::SEDIMENTARY:
 			ret = &sedimentaryMaterials[rnd];
+			break;
 		case Material::RockType::METAMORPHIC:
 			ret = &metamorphicMaterials[rnd];
+			break;
 		case Material::RockType::EXTRATERRESTRIAL:
 			ret = &extraterrestrialMaterials[rnd];
+			break;
 		case Material::RockType::METAL:
 			ret = &metalMaterials[rnd];
+			break;
+		default:
+			ret = &igneousMaterials[0];
+			break;
 		}
 		return ret;
 	}
