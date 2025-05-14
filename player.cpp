@@ -243,7 +243,7 @@ namespace Boulder
 
 		const float BaseSpeedChange = 5.0;
 		acceleration = BaseSpeedChange * pow(1.1, smoothness);
-		deceleration = BaseSpeedChange * pow(0.95, smoothness);
+		deceleration = BaseSpeedChange * pow(0.99, smoothness);
 	}
 
 	// Rolling related methods

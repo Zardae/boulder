@@ -50,8 +50,10 @@ namespace Boulder
 		case State::UPGRADING:
 			if (GetAsyncKeyState('D'))
 			{
+				std::cout << "huh";
 				distanceSinceDiffChange = 0;
 				player.Accelerate(deltaTime);
+				player.UpdateSecondaryStats();
 				state = State::ROLLING;
 			} 
 			else if (GetAsyncKeyState(VK_LBUTTON))
@@ -154,6 +156,7 @@ namespace Boulder
 				selectionManager.InitSelection();
 				// Reset Times Purchased
 				upgradeManager.ResetTimesPurchased();
+				upgradeManager.UpdateUpgradeCanPurchase(player);
 				state = State::SELECTING;
 				frameCounter = 0;
 			}
